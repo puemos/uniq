@@ -1,0 +1,14 @@
+com/puemos/uniq/UniQApplicationInitializer.class
+com/puemos/uniq/config/db/MongoDbConfig.class
+com/puemos/uniq/config/security/CsrfHeaderFilter.class
+com/puemos/uniq/config/root/RootContextConfig.class
+com/puemos/uniq/dto/Client.class
+com/puemos/uniq/config/servlet/ServletContextConfig.class
+com/puemos/uniq/services/UserRepository.class
+com/puemos/uniq/config/SecurityWebApplicationInitializer.class
+com/puemos/uniq/config/security/AppSecurityConfig.class
+com/puemos/uniq/config/security/SecUserDetailsService.class
+com/puemos/uniq/dto/User.class
+com/puemos/uniq/UniQApplication.class
+com/puemos/uniq/config/WebAppInitializer.class
+com/puemos/uniq/config/security/AjaxAuthenticationSuccessHandler.class

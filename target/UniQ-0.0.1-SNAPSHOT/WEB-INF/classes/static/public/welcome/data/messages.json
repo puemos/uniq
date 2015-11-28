@@ -1,0 +1,5 @@
+{
+  "login_success": "You have been logged in successfully",
+  "logout_success": "You have been logged out successfully",
+  "logout_not_logged_in": "You are not logged in"
+}

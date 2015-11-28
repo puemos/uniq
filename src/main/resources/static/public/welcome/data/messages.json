@@ -1,0 +1,7 @@
+{
+  "login_success": "You have been logged in successfully",
+  "logout_success": "You have been logged out successfully",
+  "create_success": "You have been signup successfully",
+  "create_group_success": "New group created",
+  "create_question_success": "New question created"
+}

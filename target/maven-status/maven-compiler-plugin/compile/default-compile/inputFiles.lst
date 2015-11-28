@@ -1,0 +1,14 @@
+/home/shy/PlayGround/Spring/UniQ/src/main/java/com/puemos/uniq/config/security/AjaxAuthenticationSuccessHandler.java
+/home/shy/PlayGround/Spring/UniQ/src/main/java/com/puemos/uniq/config/servlet/ServletContextConfig.java
+/home/shy/PlayGround/Spring/UniQ/src/main/java/com/puemos/uniq/config/WebAppInitializer.java
+/home/shy/PlayGround/Spring/UniQ/src/main/java/com/puemos/uniq/config/security/CsrfHeaderFilter.java
+/home/shy/PlayGround/Spring/UniQ/src/main/java/com/puemos/uniq/config/root/RootContextConfig.java
+/home/shy/PlayGround/Spring/UniQ/src/main/java/com/puemos/uniq/services/UserRepository.java
+/home/shy/PlayGround/Spring/UniQ/src/main/java/com/puemos/uniq/config/SecurityWebApplicationInitializer.java
+/home/shy/PlayGround/Spring/UniQ/src/main/java/com/puemos/uniq/UniQApplicationInitializer.java
+/home/shy/PlayGround/Spring/UniQ/src/main/java/com/puemos/uniq/dto/Client.java
+/home/shy/PlayGround/Spring/UniQ/src/main/java/com/puemos/uniq/config/db/MongoDbConfig.java
+/home/shy/PlayGround/Spring/UniQ/src/main/java/com/puemos/uniq/dto/User.java
+/home/shy/PlayGround/Spring/UniQ/src/main/java/com/puemos/uniq/config/security/AppSecurityConfig.java
+/home/shy/PlayGround/Spring/UniQ/src/main/java/com/puemos/uniq/config/security/SecUserDetailsService.java
+/home/shy/PlayGround/Spring/UniQ/src/main/java/com/puemos/uniq/UniQApplication.java

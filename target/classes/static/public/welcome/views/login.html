@@ -1,0 +1,40 @@
+<div class="container text-center">
+    <div ng-if="disableForm">
+        <div class="spinner">
+            <div class="double-bounce1"></div>
+            <div class="double-bounce2"></div>
+        </div>
+        <div class="please-wait">Please Wait...</div>
+    </div>
+    <form ng-if="!disableForm" role="form" ng-submit="login()" class="form-horizontal " style="margin-top: 20%">
+        <fieldset>
+            <!-- Form Name -->
+            <h1><span style="font-weight: 200">Log</span><span style="font-weight: 800">in</span></h1>
+            <!-- Username input-->
+            <div class="form-group">
+                <label class="col-md-4 control-label sr-only" for="Username">Username:</label>
+                <div class="col-md-4">
+                    <input ng-model="credentials.username"  id="Username" name="Username"
+                           type="text"
+                           placeholder="Username" class="form-control input-md" required>
+                </div>
+            </div>
+            <!-- Password input-->
+            <div class="form-group">
+                <label class="col-md-4 control-label sr-only" for="passwordinput">Password:</label>
+                <div class="col-md-4">
+                    <input ng-model="credentials.password" id="passwordinput"
+                           name="passwordinput" type="password"
+                           placeholder="Password" class="form-control input-md" required>
+                </div>
+            </div>
+            <!-- Button -->
+            <div class="form-group">
+                <label class="col-md-4 control-label sr-only" for="Submit">Submit</label>
+                <div class="col-md-4">
+                    <button id="Submit" name="Submit" class="login-btn">Submit</button>
+                </div>
+            </div>
+        </fieldset>
+    </form>
+</div>

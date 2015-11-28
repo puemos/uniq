@@ -1,0 +1,72 @@
+@font-face {
+    font-family: dora;
+    src: url(dora.ttf);
+}
+
+.buffer {
+    margin-top: 5%;
+    background-color: white;
+}
+
+.dora {
+    font-family: dora;
+}
+
+.font-gloria {
+    font-family: 'Gloria Hallelujah', cursive;
+}
+
+/*-----Nav Bar-----*/
+.logo {
+    color: darkorange !important;
+    font-family: dora !important;
+    font-size: xx-large !important;
+}
+
+/*-----Tiles-----*/
+.dummy {
+    margin-top: 100%;
+}
+
+.tile {
+    color: #000000;
+    border: solid 2px white;
+    border-radius: 7px;
+    position: absolute;
+    top: 10px;
+    bottom: 0;
+    left: 10px;
+    right: 0;
+    text-align: center;
+    padding-top: calc(50% - 30px);
+    font-family: dora;
+}
+
+a.tile {
+    font-size: 250%;
+    text-shadow: 3px 3px 2px rgba(150, 150, 150, 1);
+}
+
+a.tile:hover {
+    color: black;
+}
+
+a.tile:hover, a.tile:link, a.tile:visited {
+    text-decoration: none;
+}
+
+/*----Finished Tiles----*/
+
+input:-webkit-autofill, input:-webkit-autofill:hover, input:-webkit-autofill:focus {
+    -webkit-box-shadow: 0 0 0px 1000px white inset;
+}
+
+@media (min-width: 768px) {
+    .navbar-right {
+        margin-right: 0 !important;
+    }
+}
+.about {
+    font-family: 'Gloria Hallelujah', cursive;
+    font-size: 30px;
+}

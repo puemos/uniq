@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>UniQ</title>
+    <base href="/">
+    <!--Design-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="public/welcome/css/main.css" rel="stylesheet"/>
+    <link href="public/welcome/css/animations.css" rel="stylesheet"/>
+    <link href="/bower_components/bootstrap/dist/css/bootstrap.css" rel="stylesheet"/>
+    <link href="/bower_components/bootstrap/dist/css/bootstrap-theme.css" rel="stylesheet"/>
+    <link href='/bower_components/angular-loading-bar/build/loading-bar.min.css' rel='stylesheet' type='text/css'
+          media='all'/>
+    <link href="/bower_components/ngToast/dist/ngToast.min.css" rel="stylesheet"/>
+    <link href='https://fonts.googleapis.com/css?family=Exo+2:100,200,300,400,500,600,700,800,900' rel='stylesheet'
+          type='text/css'>
+</head>
+<body>
+<div ng-controller="shellController">
+    <div class="loading animate-fadeout jumbotron" ng-hide="vm.appReady">
+        <div class="spinner">
+            <div class="double-bounce1"></div>
+            <div class="double-bounce2"></div>
+        </div>
+        <div class="please-wait">Please Wait...</div>
+    </div>
+    <toast></toast>
+    <nav ng-show="vm.appReady" class="navbar navbar-default uinq-nav">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+                        aria-expanded="false" aria-controls="navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand logo" href="#">Uni<span style="color: #ff7703">Q</span></a>
+            </div>
+            <div id="navbar" class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li><a ui-sref="home">Home</a></li>
+                    <li><a ui-sref="about">About</a></li>
+                    <li><a ui-sref="contact">Contact</a></li>
+                    <li ng-show="vm.authenticate"><a ui-sref="userGroups">Groups</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li ng-show="vm.authenticate"><a href="" ng-click="logout()">Logout</a></li>
+                    <li ng-hide="vm.authenticate"><a ui-sref="login">Login</a></li>
+                    <li ng-show="vm.authenticate" class="username"><a>{{vm.currentUser.username}}</a></li>
+                </ul>
+            </div><!--/.nav-collapse -->
+        </div>
+    </nav>
+    <div class="view-animate-container">
+        <div ui-view class="view-animate" ng-style="myStyle"/>
+    </div>
+    <!--code-->
+</div>
+<script type="text/javascript" data-main="public/main"
+        src="/bower_components/requirejs/require.js"></script>
+</body>
+</html>

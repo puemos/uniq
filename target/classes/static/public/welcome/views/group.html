@@ -1,0 +1,62 @@
+<div class="container">
+    <div class="row">
+        <div class="col-lg-6">
+            <h1>{{currentGroup.title}}:</h1>
+        </div>
+        <div class="navbar-right">
+            <h2 ui-sref="userGroups">Back to Groups</h2>
+        </div>
+    </div>
+    <div class="row">
+        <ul class="list-group" style="color: black">
+            <li class="list-group-item btn" ng-click="vm.addQ = !vm.addQ">
+                    <span style="font-size: x-large">
+                        <span class="glyphicon glyphicon-edit"></span> Add Question
+                    </span>
+            </li>
+            <div ng-hide="vm.addQ">
+                <li class="list-group-item btn" ng-repeat="(key,value) in currentGroup.questions"
+                    ng-click="openQ(key)">
+                    {{value}}
+                </li>
+            </div>
+        </ul>
+        <div ng-show="vm.addQ" class="container">
+            <form ng-if="!vm.disableForm" role="form" ng-submit="createQuestion()" class="form-horizontal">
+                <fieldset>
+                    <div class="form-group">
+                        <input type="text" ng-focus="focus('title')" ng-blur="blur('title')"
+                               ng-model="vm.newQ.title"
+                               name="username" class="form-control input-md" placeholder="Title" required>
+
+                        <div class="error-messages" ng-show="isMessagesVisible('title')"
+                             ng-messages="form.title.$error"
+                             ng-cloak>
+                            <div ng-message="required">The title is mandatory</div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                                <textarea ng-focus="focus('description')" ng-blur="blur('description')"
+                                          ng-model="vm.newQ.description"
+                                          name="description" class="form-control input-md" placeholder="Description..."
+                                          rows="10" required></textarea>
+
+                        <div class="error-messages" ng-show="isMessagesVisible('description')"
+                             ng-messages="form.description.$error"
+                             ng-cloak>
+                            <div ng-message="required">The description is mandatory</div>
+                        </div>
+                    </div>
+                    <!-- Button -->
+                    <div class="form-group">
+                        <label class="control-label sr-only" for="Submit">Submit</label>
+
+                        <div>
+                            <button id="Submit" name="Submit" class="login-btn">Submit</button>
+                        </div>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+</div>

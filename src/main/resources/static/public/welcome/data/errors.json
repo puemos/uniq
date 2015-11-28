@@ -1,0 +1,10 @@
+{
+  "default": "There was a problem in our servers, Please try again",
+  "worng_username_password": "Wrong Username or Password",
+  "username_unavailable": "The username is not available",
+  "no_such_group": "The group it not exist",
+  "no_such_user": "The user it not exist",
+  "group_title_unavailable": "The username is not available",
+  "logout_not_logged_in": "You are not logged in"
+
+}
