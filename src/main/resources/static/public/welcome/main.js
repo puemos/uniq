@@ -11,6 +11,7 @@ define(function (require) {
         signupController = require("welcome/js/controllers/signupController"),
         searchController = require("welcome/js/controllers/searchController"),
         dashboardController = require("welcome/js/controllers/dashboardController"),
+	groupController = require("welcome/js/controllers/groupController"),
         /*Services*/
         AuthService = require("AuthService"),
         GroupService = require("GroupService"),
@@ -33,6 +34,7 @@ define(function (require) {
         .controller("signupController", signupController)
         .controller("searchController", searchController)
         .controller("dashboardController", dashboardController)
+        .controller("groupController", groupController)
         .factory('AuthService', AuthService)
         .factory('GroupService', GroupService)
         .factory('QuestionService', QuestionService)

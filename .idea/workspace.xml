@@ -2,30 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="03aa5956-4e47-4db0-b0b0-9fb75f54617d" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/resources/static/public/welcome/js/controllers/groupController.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/resources/static/public/welcome/views/dialogs/newGroup.html" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/classes/static/public/welcome/js/controllers/groupsController.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/classes/static/public/welcome/views/userGroups.html" afterPath="" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/resources/static/public/welcome/js/controllers/groupsController.js" afterPath="$PROJECT_DIR$/src/main/resources/static/public/welcome/js/controllers/dashboardController.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/resources/static/public/welcome/views/userGroups.html" afterPath="$PROJECT_DIR$/src/main/resources/static/public/welcome/views/dashboard.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/puemos/uniq/services/UserService.class" afterPath="$PROJECT_DIR$/target/classes/com/puemos/uniq/services/UserService.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/puemos/uniq/servlet/user/UsersControllerImp.class" afterPath="$PROJECT_DIR$/target/classes/com/puemos/uniq/servlet/user/UsersControllerImp.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/static/design.html" afterPath="$PROJECT_DIR$/src/main/resources/static/design.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/static/public/app.html" afterPath="$PROJECT_DIR$/src/main/resources/static/public/app.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/static/public/welcome/js/config/router.js" afterPath="$PROJECT_DIR$/src/main/resources/static/public/welcome/js/config/router.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/static/public/welcome/js/controllers/loginController.js" afterPath="$PROJECT_DIR$/src/main/resources/static/public/welcome/js/controllers/loginController.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/static/public/welcome/js/controllers/shellController.js" afterPath="$PROJECT_DIR$/src/main/resources/static/public/welcome/js/controllers/shellController.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/static/public/welcome/main.js" afterPath="$PROJECT_DIR$/src/main/resources/static/public/welcome/main.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/static/public/welcome/views/login.html" afterPath="$PROJECT_DIR$/src/main/resources/static/public/welcome/views/login.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/static/design.html" afterPath="$PROJECT_DIR$/target/classes/static/design.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/static/public/app.html" afterPath="$PROJECT_DIR$/target/classes/static/public/app.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/static/public/main.js" afterPath="$PROJECT_DIR$/target/classes/static/public/main.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/static/public/welcome/js/config/router.js" afterPath="$PROJECT_DIR$/target/classes/static/public/welcome/js/config/router.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/static/public/welcome/js/controllers/loginController.js" afterPath="$PROJECT_DIR$/target/classes/static/public/welcome/js/controllers/loginController.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/static/public/welcome/js/controllers/shellController.js" afterPath="$PROJECT_DIR$/target/classes/static/public/welcome/js/controllers/shellController.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/static/public/welcome/js/services/GroupService.js" afterPath="$PROJECT_DIR$/target/classes/static/public/welcome/js/services/GroupService.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/static/public/welcome/main.js" afterPath="$PROJECT_DIR$/target/classes/static/public/welcome/main.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/static/public/welcome/views/login.html" afterPath="$PROJECT_DIR$/target/classes/static/public/welcome/views/login.html" />
     </list>
     <ignored path="UniQ.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -1353,7 +1331,7 @@
       <workItem from="1450749076019" duration="3673000" />
       <workItem from="1450802832675" duration="10059000" />
       <workItem from="1450865997997" duration="22325000" />
-      <workItem from="1450890318867" duration="2763000" />
+      <workItem from="1450890318867" duration="2818000" />
     </task>
     <task id="LOCAL-00001" summary="change to angular material">
       <created>1450886489768</created>
@@ -1367,11 +1345,17 @@
       <option name="project" value="LOCAL" />
       <updated>1450886524578</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="add new group dialog">
+      <created>1450893107388</created>
+      <option name="number" value="00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1450893107388</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="374695000" />
+    <option name="totallyTimeSpent" value="374750000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-1" y="-4" width="1368" height="773" extended-state="6" />
@@ -1451,7 +1435,8 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <MESSAGE value="change to angular material" />
-    <option name="LAST_COMMIT_MESSAGE" value="change to angular material" />
+    <MESSAGE value="add new group dialog" />
+    <option name="LAST_COMMIT_MESSAGE" value="add new group dialog" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1757,6 +1742,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="12" column="29" selection-start-line="12" selection-start-column="29" selection-end-line="12" selection-end-column="29" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1772,6 +1758,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.24149108">
           <caret line="12" column="81" selection-start-line="12" selection-start-column="81" selection-end-line="12" selection-end-column="81" />
+          <folding />
         </state>
       </provider>
     </entry>
