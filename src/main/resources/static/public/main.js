@@ -46,7 +46,8 @@ require.config({
             deps: ["angular"]
         }
     },
-    packages: ["welcome"]
+    packages: ["welcome"],
+waitSeconds: 0
 });
 
 require(["angular", "app"], function(angular) {
