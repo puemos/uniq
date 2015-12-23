@@ -8525,7 +8525,7 @@ jQuery.ajaxSettings.xhr = function() {
 var xhrId = 0,
 	xhrCallbacks = {},
 	xhrSuccessStatus = {
-		// file protocol always yields isLogin code 0, assume 200
+		// file protocol always yields status code 0, assume 200
 		0: 200,
 		// Support: IE9
 		// #1450: sometimes IE returns 1223 when it should be 204
@@ -8597,7 +8597,7 @@ jQuery.ajaxTransport(function( options ) {
 								xhr.abort();
 							} else if ( type === "error" ) {
 								complete(
-									// file: protocol always yields isLogin 0; see #8605, #14207
+									// file: protocol always yields status 0; see #8605, #14207
 									xhr.status,
 									xhr.statusText
 								);

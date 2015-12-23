@@ -5,6 +5,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 
@@ -13,7 +14,7 @@ public class Group {
     @Id
     private String id;
     private String title;
-    private Map<String,String> questions;
+    private List<String> questions;
     private Map<String,String> users;
     private Map<String,String> admins;
     @DateTimeFormat(iso = ISO.DATE_TIME)
@@ -22,7 +23,7 @@ public class Group {
     public Group(){}
 
     public Group(String title,
-                 Map<String, String> questions,
+                 List<String> questions,
                  Map<String, String> users,
                  Map<String, String> admins,
                  Date createdDate) {
@@ -64,11 +65,11 @@ public class Group {
         this.title = title;
     }
 
-    public Map<String, String> getQuestions() {
+    public List<String> getQuestions() {
         return questions;
     }
 
-    public void setQuestions(Map<String, String> questions) {
+    public void setQuestions(List<String> questions) {
         this.questions = questions;
     }
 
@@ -80,8 +81,8 @@ public class Group {
         this.createdDate = createdDate;
     }
 
-    public void addQuestion(String questionId,String questionTitle) {
-        this.questions.put(questionId,questionTitle);
+    public void addQuestion(String questionId) {
+        this.questions.add(questionId);
     }
 
     public void removeQuestion(String questionId) {

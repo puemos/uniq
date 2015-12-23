@@ -3,11 +3,13 @@ define(function (require) {
     require("jquery");
     require("AuthService");
     require("GroupService");
-    require("ngModalService");
     require("ngUiRouter");
-    function groupsController($scope, $stateParams, AuthService, ngToast,
-                              ResourceService, GroupService, QuestionService,
-                              ModalService) {
+    function groupsController($scope, $location, $stateParams, AuthService, ngToast,
+                              ResourceService, GroupService, QuestionService, $rootScope) {
+        $rootScope.$broadcast('loading:start', true);
+        $scope.gotoGroup = function (groupId) {
+            $location.path("/groupinfo/" + groupId);
+        };
         var fieldWithFocus;
         $scope.vm = {
             disableForm: false,
@@ -15,9 +17,6 @@ define(function (require) {
             addQ: false,
             userQuery: ""
         };
-        if ($stateParams.groupId != null && $stateParams.groupId != undefined){
-            updateGroupInfo($stateParams.groupId);
-        }
         var updateUserInfo = function () {
             AuthService.getUserDetails()
                 .then(
@@ -26,6 +25,10 @@ define(function (require) {
                     },
                     function (msg) {
                         console.log(msg);
+                    })
+                .finally(
+                    function () {
+                        $rootScope.$broadcast('loading:stop', true);
                     })
         };
         var updateGroupInfo = function (groupId) {
@@ -38,13 +41,23 @@ define(function (require) {
                         console.log(msg);
                     })
         };
-        updateUserInfo();
-        $scope.gotoGroup = function (groupId) {
-            $scope.getGroupDetails(groupId);
-            $state.go('group');
+        var getGroupQuestions = function (groupId, page, size) {
+            GroupService.getGroupQuestions(groupId, page, size).then(
+                function (page) {
+                    $scope.currentGroup.questions = page.content;
+                    $rootScope.$broadcast('loading:stop', true);
+                })
         };
+        if ($stateParams.groupId != null && $stateParams.groupId != undefined) {
+            updateGroupInfo($stateParams.groupId);
+            getGroupQuestions($stateParams.groupId, 0, 10);
+        }else{
+            updateUserInfo();
+        }
         $scope.createGroup = function () {
             $scope.vm.disableForm = true;
+            $rootScope.$broadcast('loading:start', true);
+
             GroupService.createGroup($scope.vm.newGroupTitle).then(
                 function (msg) {
                     ngToast.success(ResourceService.getMsg(msg));
@@ -57,6 +70,7 @@ define(function (require) {
                     function () {
                         $scope.vm.newGroupTitle = "";
                         $scope.vm.disableForm = false;
+                        $rootScope.$broadcast('loading:stop', true);
                     });
         };
         $scope.createQuestion = function () {
@@ -76,62 +90,16 @@ define(function (require) {
                         $scope.vm.disableForm = false;
                     });
         };
-        $scope.getQuestionDetails = function (groupId) {
-            QuestionService.getQuestionDetails(groupId).then(
-                function (question) {
-                    $scope.currentQuestion = question;
-                })
+        $scope.showUserInfo = function (user) {
         };
-        $scope.searchUsers = function(query){
-            AuthService.searchUsers(query).then(
-                function(data){
-                    $scope.vm.userQuery = "";
-                    $scope.searchUsersResult = data;
-                },
-                function(msg){
-                    console.log(msg);
-                    $scope.vm.userQuery = "";
-                });
-        };
-        $scope.showUserInfo = function(user) {
-            ModalService.showModal({
-                templateUrl: "/public/welcome/views/modals/userInfo.html",
-                controller: "userInfoModalController",
-                inputs: {
-                    user: user
-                }
-            }).then(function(modal) {
-                modal.element.modal();
-                modal.close.then(function() {
-                });
-            });
-
-        };
-        $scope.showGroupInfo = function(groupId) {
+        $scope.showGroupInfo = function (groupId) {
             GroupService.getGroupDetails(groupId).then(
                 function (group) {
-                    openModal(group);
                 })
-            function openModal(group) {
-                ModalService.showModal({
-                    templateUrl: "/public/welcome/views/modals/groupInfo.html",
-                    controller: "groupInfoModalController",
-                    inputs: {
-                        group: group
-                    }
-                }).then(function (modal) {
-                    modal.element.modal();
-                    modal.close.then(function () {
-                    });
-                });
-            }
-
-
         };
     };
-
-    groupsController.$inject = ['$scope', '$stateParams', 'AuthService',
-                                'ngToast', 'ResourceService', 'GroupService',
-                                'QuestionService' ,'ModalService'];
+    groupsController.$inject = ['$scope', '$location', '$stateParams', 'AuthService',
+        'ngToast', 'ResourceService', 'GroupService',
+        'QuestionService', '$rootScope'];
     return groupsController;
 });

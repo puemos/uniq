@@ -5,14 +5,11 @@ define(['ngLocalStorage'], function () {
         var loggedIn = false,
             currentUser = null;
         var that = this;
-
-
         var prepareCreateGroupData = function (details) {
             var postData = {};
             postData.title = details != undefined ? details : '';
             return postData;
         };
-
         this.currentGroup = {};
         this.createGroup = function (details) {
             var postData = prepareCreateGroupData(details);
@@ -55,9 +52,34 @@ define(['ngLocalStorage'], function () {
                 });
             return deferred.promise;
         };
+        this.getGroupQuestions = function (groupId, page, size) {
+            var deferred = $q.defer();
+            var data = {
+                page: page,
+                size: size
+            };
+            $http(
+                {
+                    method: 'POST',
+                    url: '/group/' + groupId + '/questions',
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Accept": "application/json"
+                    },
+                    data: data
+                })
+                .success(function (data) {
+                    that.currentGroup = data;
+                    $rootScope.$broadcast('groupQuestions:in', true);
+                    deferred.resolve(data);
+                })
+                .error(function (error, status) {
+                    deferred.reject(error);
+                });
+            return deferred.promise;
+        };
         return this;
     };
-
     GroupService.$inject = ['$http', '$q', '$rootScope', 'localStorageService'];
     return GroupService;
 });

@@ -6,7 +6,7 @@
 	<groupId>com.puemos</groupId>
 	<artifactId>UniQ</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>war</packaging>
+	<packaging>jar</packaging>
 
 	<name>UniQ</name>
 	<description>Questions source for students</description>

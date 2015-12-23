@@ -1,8 +1,8 @@
 package com.puemos.uniq.servlet.user;
 
 import com.puemos.uniq.dto.User;
-import com.puemos.uniq.exceptions.UnavailableUsernameException;
-import com.puemos.uniq.exceptions.UserNotFoundException;
+import com.puemos.uniq.exceptions.InputException;
+import com.puemos.uniq.exceptions.NotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.security.Principal;
 import java.util.List;
 import java.util.Map;
 
@@ -30,17 +31,17 @@ public interface IUserController {
     @PreAuthorize("hasRole('ROLE_USER')")
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    ResponseEntity<User> getUserDetails(Authentication authentication) throws UserNotFoundException;
+    ResponseEntity<User> getUserDetails(Principal principal) throws NotFoundException;
 
     @RequestMapping(value = "/userQuery", method = RequestMethod.POST)
     @ResponseBody
     ResponseEntity<List<User>> findUsers(@RequestBody Map<String, String> requestData);
 
     @RequestMapping(value = "/user", method = RequestMethod.POST)
-    ResponseEntity<String> createUser(@RequestBody User user) throws IOException, UnavailableUsernameException;
+    ResponseEntity<String> createUser(@RequestBody User user) throws IOException, InputException;
 
-    @ExceptionHandler(UnavailableUsernameException.class)
+    @ExceptionHandler(InputException.class)
     @ResponseStatus(value = HttpStatus.CONFLICT)
     @ResponseBody
-    String unavailableUsernameHandler(UnavailableUsernameException exc);
+    String unavailableUsernameHandler(InputException exc);
 }

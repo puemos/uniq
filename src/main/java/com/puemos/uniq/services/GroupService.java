@@ -4,18 +4,19 @@ import com.puemos.uniq.dao.GroupRepository;
 import com.puemos.uniq.dto.Group;
 import com.puemos.uniq.dto.Question;
 import com.puemos.uniq.dto.User;
-import com.puemos.uniq.exceptions.GroupNotFoundException;
-import org.apache.log4j.Logger;
+import com.puemos.uniq.exceptions.InputException;
+import com.puemos.uniq.exceptions.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.security.web.bind.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import sun.net.www.protocol.http.AuthenticationInfo;
 
-import java.security.Principal;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 
 
 /**
@@ -24,13 +25,14 @@ import java.util.HashMap;
 @Service
 public class GroupService {
 
-
     @Autowired
     private GroupRepository groupRepository;
 
-
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private QuestionService questionService;
 
 
     /**
@@ -41,13 +43,16 @@ public class GroupService {
      * @param groupId  - the currently group
      */
     @Transactional
-    public void addUserToGroup(@AuthenticationPrincipal User activeUser, String userId, String username, String groupId) {
+    public void addUserToGroup(@AuthenticationPrincipal User activeUser, String userId, String username, String groupId) throws NotFoundException, InputException {
         Group group = groupRepository.findOne(groupId);
 
-        if (group != null) {
-            group.addUser(userId, username);
-        } else {
+        if (group == null) {
+            throw new NotFoundException("no_such_group");
         }
+        if (group.getUsers().containsKey(userId)) {
+            throw new InputException("user_already_in_group");
+        }
+        group.addUser(userId, username);
         groupRepository.save(group);
     }
 
@@ -59,31 +64,48 @@ public class GroupService {
      * @param groupId       - the currently group
      */
     @Transactional
-    public void addAdminToGroup(String adminId, String adminUsername, String groupId) {
+    public void addAdminToGroup(String adminId, String adminUsername, String groupId) throws NotFoundException, InputException {
         Group group = groupRepository.findOne(groupId);
 
-        if (group != null) {
-            group.addUser(adminId, adminUsername);
-        } else {
+        if (group == null) {
+            throw new NotFoundException("no_such_group");
         }
+        if (group.getAdmins().containsKey(adminId)) {
+            throw new InputException("user_already_in_group");
+        }
+        group.addUser(adminId, adminUsername);
         groupRepository.save(group);
     }
 
     /**
      * add admin to the group
      *
-     * @param groupId       - the currently group
-     * @param question       - the question
+     * @param groupId  - the currently group
+     * @param question - the question
      */
     @Transactional
-    public void addQuestionToGroup(String groupId, Question question) {
+    public void addQuestionToGroup(String groupId, Question question) throws NotFoundException {
         Group group = groupRepository.findOne(groupId);
-
-        if (group != null) {
-            group.addQuestion(question.getId(),question.getTitle());
-        } else {
+        if (group == null) {
+            throw new NotFoundException("no_such_group");
         }
+        group.addQuestion(question.getId());
         groupRepository.save(group);
+    }
+
+    /**
+     * add admin to the group
+     *
+     * @param groupId - the currently group
+     * @param pageRequest
+     */
+    @Transactional
+    public Page<Question> getGroupQuestions(String groupId, PageRequest pageRequest) throws NotFoundException {
+        Group group = groupRepository.findOne(groupId);
+        if (group == null) {
+            throw new NotFoundException("no_such_group");
+        }
+        return questionService.findQuestionById(group.getQuestions(),pageRequest);
     }
 
     /**
@@ -94,7 +116,7 @@ public class GroupService {
      * @param username - the username of the user how created the group
      */
     @Transactional
-    public void createGroup(String title, String userId, String username) {
+    public void createGroup(String title, String userId, String username) throws NotFoundException {
 
 
         if (!isGroupTitleAvailable(username)) {
@@ -102,30 +124,30 @@ public class GroupService {
         }
 
         Group group = new Group(title,
-                new HashMap<String, String>(),
-                new HashMap<String, String>(),
-                new HashMap<String, String>(),
+                new ArrayList<>(),
+                new HashMap<>(),
+                new HashMap<>(),
                 new Date());
         group.addAdmin(userId, username);
         group.addUser(userId, username);
         groupRepository.save(group);
-        userService.addGroupToUser(userId,group.getId(),group.getTitle());
+        userService.addGroupToUser(userId, group.getId(), group.getTitle());
     }
 
     @Transactional(readOnly = true)
-    public Group findGroupByTitle(String title) throws GroupNotFoundException {
+    public Group findGroupByTitle(String title) throws NotFoundException {
         Group group = groupRepository.findByTitle(title);
-        if (group == null){
-            throw new GroupNotFoundException("no_such_group");
+        if (group == null) {
+            throw new NotFoundException("no_such_group");
         }
         return group;
     }
 
     @Transactional(readOnly = true)
-    public Group findGroupById(String groupId) throws GroupNotFoundException {
+    public Group findGroupById(String groupId) throws NotFoundException {
         Group group = groupRepository.findOne(groupId);
-        if (group == null){
-            throw new GroupNotFoundException("no_such_group");
+        if (group == null) {
+            throw new NotFoundException("no_such_group");
         }
         return group;
     }

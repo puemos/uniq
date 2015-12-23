@@ -1,25 +1,36 @@
 define(function (require) {
     'use strict';
     require("AuthService");
-    function loginController($scope, $location, AuthService, ngToast, ResourceService) {
+    function loginController($scope, $location, AuthService, $mdToast, ResourceService,$rootScope) {
+        $scope.credentials = {};
+        function createSimpleToast(text) {
+            return $mdToast.simple()
+                .content(text)
+                .hideDelay(3000)
+        }
+
         var successLogin = function () {
             $location.path("/userGroups");
-            ngToast.success(ResourceService.getMsg('login_success'));
+            $mdToast.show(
+                createSimpleToast(ResourceService.getMsg('login_success'))
+            );
         };
         var failLogin = function (code) {
-            ngToast.danger(ResourceService.getErrorMsg(code));
+            $mdToast.show(
+                createSimpleToast(ResourceService.getErrorMsg(code))
+            );
         };
         var finallyLogin = function () {
-            $scope.disableForm = false;
+            $rootScope.$broadcast('loading:stop', true);
         };
-
-        $scope.credentials = {};
         $scope.login = function () {
-            $scope.disableForm = true;
+            $rootScope.$broadcast('loading:start', true);
             AuthService.login($scope.credentials).then(successLogin, failLogin).finally(finallyLogin);
         }
+        $scope.reset = function () {
+            $scope.credentials = {};
+        }
     };
-
-    loginController.$inject = ['$scope', '$location', 'AuthService', 'ngToast', 'ResourceService'];
+    loginController.$inject = ['$scope', '$location', 'AuthService', '$mdToast', 'ResourceService', '$rootScope'];
     return loginController;
 });

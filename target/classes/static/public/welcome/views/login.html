@@ -1,40 +1,34 @@
-<div class="container text-center">
-    <div ng-if="disableForm">
-        <div class="spinner">
-            <div class="double-bounce1"></div>
-            <div class="double-bounce2"></div>
-        </div>
-        <div class="please-wait">Please Wait...</div>
-    </div>
-    <form ng-if="!disableForm" role="form" ng-submit="login()" class="form-horizontal " style="margin-top: 20%">
-        <fieldset>
-            <!-- Form Name -->
-            <h1><span style="font-weight: 200">Log</span><span style="font-weight: 800">in</span></h1>
-            <!-- Username input-->
-            <div class="form-group">
-                <label class="col-md-4 control-label sr-only" for="Username">Username:</label>
-                <div class="col-md-4">
-                    <input ng-model="credentials.username"  id="Username" name="Username"
-                           type="text"
-                           placeholder="Username" class="form-control input-md" required>
-                </div>
+<div class='md-padding' layout="row" layout-align="center center" flex>
+    <md-card style="width: 350px" class="md-whiteframe-6dp">
+        <form name="loginForm" data-ng-submit="login()" layout="column">
+            <md-card-content>
+                        <span class="md-title md-title-big">
+                            <span style="font-weight: 100">LOG</span>IN
+                        </span>
+                <br/>
+                <br/>
+                <md-input-container>
+                    <label>Username:</label>
+                    <input name="username" ng-model="credentials.username" required>
+                    <div ng-messages="loginForm.username.$error" ng-if="loginForm.username.$touched">
+                        <div ng-message="required">Username is required.</div>
+                    </div>
+                </md-input-container>
+                <md-input-container>
+                    <label>Password:</label>
+                    <input name="password" type="password" ng-model="credentials.password" required>
+                    <div ng-messages="loginForm.password.$error" ng-if="loginForm.password.$touched">
+                        <div ng-message="required">Password is required.</div>
+                    </div>
+                </md-input-container>
+            </md-card-content>
+            <div class="md-actions" md-theme="pink" layout="row" layout-align="center center">
+                <md-button class="md-primary" ng-disabled="loginForm.$invalid" type="submit"
+                           ng-class="{'md-raised': (loginForm.$dirty && loginForm.$valid) }"
+                           aria-label="Save Project">Send
+                </md-button>
+                <md-button class="md-raised" ng-click="reset()">Reset</md-button>
             </div>
-            <!-- Password input-->
-            <div class="form-group">
-                <label class="col-md-4 control-label sr-only" for="passwordinput">Password:</label>
-                <div class="col-md-4">
-                    <input ng-model="credentials.password" id="passwordinput"
-                           name="passwordinput" type="password"
-                           placeholder="Password" class="form-control input-md" required>
-                </div>
-            </div>
-            <!-- Button -->
-            <div class="form-group">
-                <label class="col-md-4 control-label sr-only" for="Submit">Submit</label>
-                <div class="col-md-4">
-                    <button id="Submit" name="Submit" class="login-btn">Submit</button>
-                </div>
-            </div>
-        </fieldset>
-    </form>
+        </form>
+    </md-card>
 </div>

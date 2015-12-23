@@ -1,14 +1,17 @@
 package com.puemos.uniq.services;
 
 import com.puemos.uniq.dao.UserRepository;
+import com.puemos.uniq.dto.Client;
 import com.puemos.uniq.dto.User;
-import com.puemos.uniq.exceptions.UnavailableUsernameException;
-import com.puemos.uniq.exceptions.UserNotFoundException;
+import com.puemos.uniq.exceptions.NotFoundException;
+import com.puemos.uniq.exceptions.InputException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.security.Principal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -37,13 +40,12 @@ public class UserService {
      * @param groupTitle - the new group Title
      */
     @Transactional
-    public void addGroupToUser(String userId, String groupId, String groupTitle) {
+    public void addGroupToUser(String userId, String groupId, String groupTitle) throws NotFoundException {
         User user = userRepository.findById(userId);
-
-        if (user != null) {
-            user.addGroup(groupId, groupTitle);
-        } else {
+        if (user == null) {
+            throw new NotFoundException("no_such_user");
         }
+        user.addGroup(groupId, groupTitle);
         userRepository.save(user);
     }
 
@@ -61,11 +63,11 @@ public class UserService {
                            String email,
                            String password,
                            String firstname,
-                           String lastname) throws UnavailableUsernameException {
+                           String lastname) throws InputException {
 
 
         if (!isUsernameAvailable(username)) {
-            throw new UnavailableUsernameException("username_unavailable");
+            throw new InputException("username_unavailable");
         }
 
         User user = new User(username,
@@ -73,25 +75,25 @@ public class UserService {
                 email,
                 firstname,
                 lastname,
-                new HashMap<String, String>());
+                new HashMap<>());
 
         userRepository.save(user);
     }
 
     @Transactional(readOnly = true)
-    public User findUserByUsername(String username) throws UserNotFoundException {
+    public User findUserByUsername(String username) throws NotFoundException {
         User user = userRepository.findByUsername(username);
-        if (user == null){
-            throw new UserNotFoundException("no_such_user");
+        if (user == null) {
+            throw new NotFoundException("no_such_user");
         }
         return user;
     }
 
     @Transactional(readOnly = true)
-    public User findUserById(String userId) throws UserNotFoundException {
+    public User findUserById(String userId) throws NotFoundException {
         User user = userRepository.findById(userId);
-        if (user == null){
-            throw new UserNotFoundException("no_such_user");
+        if (user == null) {
+            throw new NotFoundException("no_such_user");
         }
         return user;
     }
@@ -107,4 +109,9 @@ public class UserService {
         return (user == null);
     }
 
+    @Transactional(readOnly = true)
+    public User getCurrentUser(Principal principal) throws NotFoundException {
+        String id = ((Client) ((UsernamePasswordAuthenticationToken) principal).getPrincipal()).getUserId();
+        return this.findUserById(id);
+    }
 }

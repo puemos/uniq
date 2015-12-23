@@ -1,13 +1,47 @@
 define(function (require) {
     'use strict';
     require("AuthService");
-    function shellController($scope, $rootScope, $location, AuthService, ngToast, ResourceService) {
+    require("ngMaterial");
+    function shellController($scope, $rootScope, $location, AuthService,
+                             ngToast, ResourceService, $mdSidenav, $state) {
+        var self = this;
+        $scope.menu = [
+            {
+                link: 'home',
+                title: 'Dashboard',
+                icon: 'action:ic_dashboard_24px' // we have to use Google's naming convention for the IDs of the SVGs in the spritesheet
+            },
+            {
+                link: 'userGroups',
+                title: 'Groups',
+                icon: 'social:ic_group_24px'
+            },
+            {
+                link: 'home',
+                title: 'Messages',
+                icon: 'communication:ic_message_24px'
+            }
+        ];
+        $scope.admin = [
+            {
+                link: '',
+                title: 'Trash',
+                icon: 'action:ic_delete_24px'
+            },
+            {
+                link: 'showListBottomSheet($event)',
+                title: 'Settings',
+                icon: 'action:ic_settings_24px'
+            }
+        ];
         $scope.vm = {
             currentUser: {},
             authenticate: false,
             group: false,
-            state: $rootScope.$state
+            state: $rootScope.$state,
+            userMenu: {}
         };
+        $scope.goRoute = $state.go;
         var markAppAsInitialized = function () {
             if ($scope.vm.appReady == undefined) {
                 console.log("app ready");
@@ -41,6 +75,14 @@ define(function (require) {
                 })
         };
         updateUserDetails();
+        // Toolbar search toggle
+        $scope.toggleSearch = function (element) {
+            $scope.showSearch = !$scope.showSearch;
+        };
+        // Sidenav toggle
+        $scope.toggleSidenav = function (menuId) {
+            $mdSidenav(menuId).toggle();
+        };
         $scope.logout = function () {
             AuthService.logout()
                 .then(function () {
@@ -51,6 +93,12 @@ define(function (require) {
                 })
         };
         /*Observers*/
+        $scope.$on('loading:start', function (event, data) {
+            self.loading = true;
+        });
+        $scope.$on('loading:stop', function (event, data) {
+            self.loading = false;
+        });
         $scope.$on('user:login', function (event, data) {
             updateUserDetails();
         });
@@ -59,8 +107,8 @@ define(function (require) {
             $scope.vm.currentUser = {};
         });
     };
-
-    shellController.$inject = ['$scope', '$rootScope', '$location', 'AuthService', 'ngToast', 'ResourceService'];
+    shellController.$inject = ['$scope', '$rootScope', '$location', 'AuthService',
+        'ngToast', 'ResourceService', '$mdSidenav', '$state'];
     return shellController;
 })
 ;

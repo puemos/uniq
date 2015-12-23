@@ -1,0 +1,107 @@
+@import url(https://fonts.googleapis.com/css?family=Exo+2:400,100,200,300,800,500);
+
+[ng-click]:hover {
+    cursor: pointer;
+}
+
+[ng\:cloak], [ng-cloak], .ng-cloak {
+    display: none !important;
+}
+
+.shell {
+    background-color: #3850a0 !important;
+    color: white;
+    font-family: 'Exo 2'!important;
+
+}
+
+md-card {
+    color: #000000;
+}
+
+md-sidenav md-list-item.md-2-line .md-list-item-text {
+    padding-top: 14px;
+    padding-bottom: 12px;
+}
+
+md-sidenav md-divider {
+    margin-top: 4px;
+    margin-bottom: 4px;
+}
+
+md-sidenav md-icon {
+    fill: #737373;
+    position: relative;
+}
+
+md-sidenav .md-avatar {
+    height: 64px;
+    width: 64px;
+}
+
+/* More closely matches https://www.google.com/design/spec/components/lists.html#lists-specs */
+md-list-item.md-3-line md-divider[md-inset] {
+    left: 70px;
+}
+
+.md-avatar > svg {
+    border-radius: 50%;
+}
+
+/* fade animation */
+.animate-show {
+    transition: 0.75s ease-out opacity;
+    opacity: 1;
+}
+
+.animate-show.ng-hide {
+    height: 0;
+    min-height: 0;
+    opacity: 0.7;
+    overflow: hidden;
+}
+
+*[md-theme="light-blue"] .md-fg-color-50 {
+    color: #03a9f4;
+}
+
+*[md-theme="light-blue"] .md-fg-color-60 {
+    color: #039be5;
+}
+
+*[md-theme="pink"] .md-fg-color-50 {
+    color: #e92f33;
+}
+
+*[md-theme="pink"] .md-fg-color-60 {
+    color: #d81b60;
+}
+
+.big-fab {
+    width: 12rem!important;
+    height: 12rem!important;
+    line-height: 12rem!important;
+    font-size: xx-large!important;
+    font-family: 'Exo 2'!important;
+    min-width: 12rem!important;
+
+}
+
+.menu-text-btn {
+    font-weight: 300!important;
+    font-size: large!important;
+    font-family: "Exo 2"!important;
+}
+
+.menu-brand-btn {
+    font-size: larger!important;
+}
+
+md-fab-speed-dial .md-button {
+    line-height:0!important;
+}
+
+.md-title-big {
+    font-size: 60px!important;
+}
+

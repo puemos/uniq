@@ -1,34 +1,29 @@
-<div class="container">
-    <div class="col-md-4 col-sm-4 col-xs-12 text-center">
-        <div class="row">
-            <h1><span style="font-weight: 200">my</span><span style="font-weight: 800">Groups</span></h1>
-            <ul class="list-unstyled" style="font-weight: 100; font-size: 160%">
-                <li class="" ng-repeat="(key, value) in currentUser.groups">
-                    <span>{{value}}</span>
-                    <span>|</span>
-                    <span><a class="my-groups" ng-click="showGroupInfo(key)">Details</a></span>
-                    <span>|</span>
-                    <span><a class="my-groups" ng-href="/groupinfo/{{key}}">Enter</a></span>
-                </li>
-            </ul>
+<div layout="column" layout-align="start center" flex>
+    <md-toolbar class="animate-show  md-whiteframe-z1">
+        <div class="md-toolbar-tools">
+            <span flex></span>
+            <span class="md-title md-title-big">
+                <span style="font-weight: 100">Groups</span>
+            </span>
+            <span flex></span>
         </div>
-    </div>
-    <div class="col-md-4 col-sm-8 col-xs-12">
-        <div class="row text-center">
-            <h1><span style="font-weight: 200">users</span><span style="font-weight: 800">Search</span></h1>
-        </div>
-        <div class="row text-center">
-            <div class="input-group">
-                <input ng-model="vm.userQuery" type="text" class="form-control" placeholder="Search for...">
-                      <span class="input-group-btn">
-                        <button ng-click="searchUsers(vm.userQuery)" class="btn btn-default" type="button">Go!</button>
-                      </span>
-            </div><!-- /input-group -->
-        </div>
-        <div class="row">
-            <ul class="list-unstyled" style="font-weight: 100; font-size: 160%">
-                <li ng-repeat="user in searchUsersResult" ng-click="showUserInfo(user)">{{user.username}}</li>
-            </ul>
-        </div>
+    </md-toolbar>
+    <div class='md-padding' layout="column">
+        <md-card layout="row" style="width: 800px" class="md-whiteframe-6dp">
+            <md-list flex>
+                <div ng-repeat="(groupId, groupTitle) in currentUser.groups">
+                    <md-list-item class="md-1-line">
+                        <p flex-offset="5">{{groupTitle}}</p>
+                        <md-button aria-label="view" ng-click="gotoGroup(groupId)">
+                            <md-tooltip md-direction="left">
+                                View
+                            </md-tooltip>
+                            <md-icon class="material-icons">input</md-icon>
+                        </md-button>
+                    </md-list-item>
+                    <md-divider ng-if="!$last"></md-divider>
+                </div>
+            </md-list>
+        </md-card>
     </div>
 </div>
