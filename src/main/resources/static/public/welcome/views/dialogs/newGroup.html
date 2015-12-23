@@ -1,0 +1,56 @@
+<md-dialog aria-label="" ng-cloak flex>
+    <form name="newGroupForm" data-ng-submit="login()">
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                New Group
+                <span flex></span>
+                <md-button class="md-icon-button" ng-click="cancel()">
+                    <i class="material-icons">close</i>
+                </md-button>
+            </div>
+        </md-toolbar>
+        <md-dialog-content>
+            <div class="md-dialog-content">
+                <md-input-container>
+                    <label>Title:</label>
+                    <input name="title" ng-model="group.title" required>
+                    <div ng-messages="newGroupForm.title.$error" ng-if="newGroupForm.title.$touched">
+                        <div ng-message="required">Title is required.</div>
+                    </div>
+                </md-input-container>
+                <md-input-container>
+                    <label style="order: 0">Admins:</label>
+                    <md-chips ng-model="admins">
+                        <md-chip-template>
+                        <span>
+                          <strong>{{$chip.username}}</strong>
+                        </span>
+                        </md-chip-template>
+                    </md-chips>
+                </md-input-container>
+                <md-input-container>
+                    <label style="order: 0">Users:</label>
+                    <md-chips ng-model="users">
+                        <md-chip-template>
+                        <span>
+                          <strong>{{$chip.username}}</strong>
+                        </span>
+                        </md-chip-template>
+                    </md-chips>
+                </md-input-container>
+            </div>
+        </md-dialog-content>
+        <md-dialog-actions style="order: 0;" md-theme="pink" layout="row" layout-align="center center">
+            <md-button class="md-raised" ng-click="">Add Admin</md-button>
+            <md-button class="md-raised" ng-click="">Add User</md-button>
+            </md-dialog-actions>
+        <md-dialog-actions style="order: 1;" md-theme="pink" layout="row" layout-align="center center">
+            <md-button class="md-primary" ng-disabled="newGroupForm.$invalid" type="submit"
+                       ng-class="{'md-raised': (newGroupForm.$dirty && newGroupForm.$valid) }"
+                       aria-label="Save Project">Send
+            </md-button>
+            <md-button class="md-raised" ng-click="reset()">Reset</md-button>
+        </md-dialog-actions>
+    </form>
+</md-dialog>
+

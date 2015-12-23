@@ -9,9 +9,8 @@
     <link rel="stylesheet" href="public/welcome/css/design.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
           rel="stylesheet">
-
 </head>
-<body  layout="column" ng-controller="shellController as shell" ng-cloak>
+<body layout="column" ng-controller="shellController as shell" ng-cloak>
 <md-sidenav layout="column" class="md-sidenav-left md-whiteframe-z2" md-component-id="left">
     <md-toolbar class="md-hue-2 md-tall">
         <div layout="row" layout-align="start center">
@@ -23,10 +22,11 @@
         <div class="md-body-1">email@domainname.com</div>
     </md-toolbar>
     <md-list>
-        <md-list-item   class="md-2-line" ng-repeat="item in menu" role="link" ng-click="goRoute(item.link)" md-ink-ripple>
+        <md-list-item class="md-2-line" ng-repeat="item in menu" role="link" ng-click="goRoute(item.link)"
+                      md-ink-ripple>
             <md-icon md-svg-icon="{{item.icon}}" aria-label="{{item.title}}"></md-icon>
             <div class="md-list-item-text">
-                <span class="md-body-2" >{{item.title}}</span>
+                <span class="md-body-2">{{item.title}}</span>
             </div>
         </md-list-item>
         <md-divider></md-divider>
@@ -39,29 +39,27 @@
         </md-list-item>
     </md-list>
 </md-sidenav>
-<div layout="column" class="relative"  role="main" flex>
-    <md-button class="md-fab md-fab-bottom-right" aria-label="Add" ng-click="showAdd($event)">
-        <md-icon md-svg-icon="content:ic_add_24px" aria-label="Plus"></md-icon>
-    </md-button ng-cloak>
+<div layout="column" class="relative" role="main" flex>
     <md-toolbar class="animate-show md-hue-1 md-whiteframe-z1" ng-show="!showSearch" ng-cloak>
-        <md-progress-linear style="position: absolute;" ng-show="shell.loading" class="md-warn md-hue-2" md-mode="query" md-diameter="20"></md-progress-linear>
-
+        <md-progress-linear style="position: absolute;" ng-show="shell.loading" class="md-warn md-hue-2" md-mode="query"
+                            md-diameter="20"></md-progress-linear>
         <div class="md-toolbar-tools">
             <md-button ng-click="toggleSidenav('left')" aria-label="Menu">
                 <md-icon md-svg-icon="navigation:ic_menu_24px" aria-label="Menu"></md-icon>
             </md-button>
             <md-button ui-sref="home" class="menu-brand-btn menu-text-btn" hide show-gt-sm aria-label="Home">
-                    Uni<span style="color: #ff7703">Q</span>
+                Uni<span style="color: #ff7703">Q</span>
             </md-button>
             <md-button ui-sref="about" class="menu-text-btn" hide show-gt-sm aria-label="About">
                 About
             </md-button>
-            <md-button ui-sref="userGroups" ng-show="vm.authenticate" class="menu-text-btn" hide show-gt-sm aria-label="Groups">
+            <md-button ui-sref="userGroups" ng-show="vm.authenticate" class="menu-text-btn" hide show-gt-sm
+                       aria-label="Groups">
                 Groups
             </md-button>
             <span flex></span>
             <md-button ui-sref="signup" ng-hide="vm.authenticate" class="md-raised md-primary" aria-label="signup">
-                    SignUp
+                SignUp
             </md-button>
             <md-button class="md-icon-button" aria-label="Search" ng-click="toggleSearch()">
                 <md-icon md-svg-icon="action:ic_search_24px" aria-label="Search"></md-icon>
@@ -71,12 +69,12 @@
             </md-button>
         </div>
     </md-toolbar>
-    <md-fab-speed-dial  md-direction="up" md-open="userMenu.isOpen"
+    <md-fab-speed-dial md-direction="up" md-open="userMenu.isOpen"
                        class="md-scale md-fab-bottom-right md-hover-full"
                        ng-mouseenter="userMenu.isOpen=true" ng-mouseleave="userMenu.isOpen=false">
         <md-fab-trigger>
             <md-button aria-label="menu" class="md-fab md-warn">
-                <md-tooltip md-direction="top" md-visible="tooltipVisible">Menu</md-tooltip>
+                <md-tooltip md-direction="left" md-visible="tooltipVisible">Menu</md-tooltip>
                 <i class="material-icons">account_circle</i>
             </md-button>
         </md-fab-trigger>
@@ -88,7 +86,7 @@
                                 md-autohide="false">
                         Login
                     </md-tooltip>
-                    <i class="material-icons" style="color: darkgreen">power_settings_new</i>
+                    <i class="material-icons md-18" style="color: darkgreen">power_settings_new</i>
                 </md-button>
             </div>
             <div>
@@ -109,6 +107,37 @@
                         Logout
                     </md-tooltip>
                     <i class="material-icons md-18" style="color: black">fingerprint</i>
+                </md-button>
+            </div>
+        </md-fab-actions>
+    </md-fab-speed-dial>
+    <md-fab-speed-dial style="right: 80px;" md-direction="left"
+                       class="md-scale md-fab-bottom-right md-hover-full">
+        <md-fab-trigger>
+            <md-button aria-label="menu" class="md-fab md-accent">
+                <md-tooltip md-direction="top" md-visible="tooltipVisible">Menu</md-tooltip>
+                <i class="material-icons">mode_edit</i>
+            </md-button>
+        </md-fab-trigger>
+        <md-fab-actions>
+            <div>
+                <md-button aria-label="group_add" class="md-fab md-raised md-mini"
+                           ng-click=showAdvanced($event)>
+                    <md-tooltip md-direction="top" md-visible="tooltipVisible"
+                                md-autohide="false">
+                        New Group
+                    </md-tooltip>
+                    <i class="material-icons md-18">group_add</i>
+                </md-button>
+            </div>
+            <div>
+                <md-button aria-label="logout" class="md-fab md-raised md-mini"
+                           ng-click="">
+                    <md-tooltip md-direction="top" md-visible="tooltipVisible"
+                                md-autohide="false">
+                        New Question
+                    </md-tooltip>
+                    <i class="material-icons md-18">help</i>
                 </md-button>
             </div>
         </md-fab-actions>
@@ -144,13 +173,10 @@
           </span>
         </div>
     </md-toolbar>
-
-    <md-content  layout="row" class="shell" flex ng-cloak>
-
+    <md-content layout="row" class="shell" flex ng-cloak>
         <div ng-hide="shell.loading" ui-view layout="row" flex layout-padding ng-cloak></div>
     </md-content>
 </div>
-
 <script type="text/javascript" data-main="public/main"
         src="/bower_components/requirejs/require.js"></script>
 </body>

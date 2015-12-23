@@ -10,7 +10,7 @@ define(function (require) {
         }
 
         var successLogin = function () {
-            $location.path("/userGroups");
+            $location.path("/dashboard");
             $mdToast.show(
                 createSimpleToast(ResourceService.getMsg('login_success'))
             );

@@ -6,10 +6,11 @@ define(function (require) {
         /*Controllers*/
         homeController = require("welcome/js/controllers/homeController"),
         loginController = require("welcome/js/controllers/loginController"),
-        groupsController = require("welcome/js/controllers/groupsController"),
+        dashboardController = require("welcome/js/controllers/dashboardController"),
         shellController = require("welcome/js/controllers/shellController"),
         signupController = require("welcome/js/controllers/signupController"),
         searchController = require("welcome/js/controllers/searchController"),
+        dashboardController = require("welcome/js/controllers/dashboardController"),
         /*Services*/
         AuthService = require("AuthService"),
         GroupService = require("GroupService"),
@@ -26,11 +27,12 @@ define(function (require) {
         localStorageConfig = require("welcome/js/config/localStorage");
     ngModule = angular.module(name, [])
         .controller("homeController", homeController)
-        .controller("groupsController", groupsController)
+        .controller("dashboardController", dashboardController)
         .controller("loginController", loginController)
         .controller("shellController", shellController)
         .controller("signupController", signupController)
         .controller("searchController", searchController)
+        .controller("dashboardController", dashboardController)
         .factory('AuthService', AuthService)
         .factory('GroupService', GroupService)
         .factory('QuestionService', QuestionService)

@@ -13,14 +13,14 @@ define(['require', 'ngUiRouter'], function (require) {
                 controller: 'loginController',
                 templateUrl: "/public/welcome/views/login.html"
             })
-            .state('userGroups', {
-                url: "/userGroups",
-                controller: 'groupsController',
-                templateUrl: "/public/welcome/views/userGroups.html"
+            .state('dashboard', {
+                url: "/dashboard",
+                controller: 'dashboardController',
+                templateUrl: "/public/welcome/views/dashboard.html"
             })
             .state('group', {
                 url: "/groupinfo/{groupId}",
-                controller: 'groupsController',
+                controller: 'groupController',
                 templateUrl: "/public/welcome/views/group.html"
             })
             .state('signup', {

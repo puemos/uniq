@@ -1,9 +1,7 @@
 define(['ngLocalStorage'], function () {
     'use strict';
     require("ngLocalStorage");
-    function GroupService($http, $q, $rootScope, localStorageService) {
-        var loggedIn = false,
-            currentUser = null;
+    function GroupService($http, $q, $rootScope) {
         var that = this;
         var prepareCreateGroupData = function (details) {
             var postData = {};
@@ -79,8 +77,8 @@ define(['ngLocalStorage'], function () {
             return deferred.promise;
         };
         return this;
-    };
-    GroupService.$inject = ['$http', '$q', '$rootScope', 'localStorageService'];
+    }
+    GroupService.$inject = ['$http', '$q', '$rootScope'];
     return GroupService;
 });
 

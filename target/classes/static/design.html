@@ -64,12 +64,13 @@
             </md-button>
         </div>
     </md-toolbar>
+    <div layout="row">
     <md-fab-speed-dial md-direction="up" md-open="userMenu.isOpen"
                        class="md-scale md-fab-bottom-right md-hover-full"
                        ng-mouseenter="userMenu.isOpen=true" ng-mouseleave="userMenu.isOpen=false">
         <md-fab-trigger>
             <md-button aria-label="menu" class="md-fab md-warn">
-                <md-tooltip md-direction="top" md-visible="tooltipVisible">Menu</md-tooltip>
+                <md-tooltip md-direction="left" md-visible="tooltipVisible">Menu</md-tooltip>
                 <i class="material-icons">account_circle</i>
             </md-button>
         </md-fab-trigger>
@@ -106,6 +107,39 @@
             </div>
         </md-fab-actions>
     </md-fab-speed-dial>
+    <md-fab-speed-dial style="right: 80px;" md-direction="left"
+                       class="md-scale md-fab-bottom-right md-hover-full"
+                       >
+        <md-fab-trigger>
+            <md-button aria-label="menu" class="md-fab md-accent">
+                <md-tooltip md-direction="top" md-visible="tooltipVisible">Menu</md-tooltip>
+                <i class="material-icons">mode_edit</i>
+            </md-button>
+        </md-fab-trigger>
+        <md-fab-actions>
+            <div>
+                <md-button aria-label="group_add" class="md-fab md-raised md-mini"
+                           ng-click="">
+                    <md-tooltip md-direction="top" md-visible="tooltipVisible"
+                                md-autohide="false">
+                        New Group
+                    </md-tooltip>
+                    <i class="material-icons md-18">group_add</i>
+                </md-button>
+            </div>
+            <div>
+                <md-button aria-label="logout" class="md-fab md-raised md-mini"
+                           ng-click="">
+                    <md-tooltip md-direction="top" md-visible="tooltipVisible"
+                                md-autohide="false">
+                        New Question
+                    </md-tooltip>
+                    <i class="material-icons md-18">help</i>
+                </md-button>
+            </div>
+        </md-fab-actions>
+    </md-fab-speed-dial>
+    </div>
     <md-toolbar ng-show="showSearch" class="animate-show md-hue-1 md-whiteframe-z1">
         <div class="md-toolbar-tools">
             <md-button class="md-icon-button" ng-click="toggleSearch()" aria-label="Menu">

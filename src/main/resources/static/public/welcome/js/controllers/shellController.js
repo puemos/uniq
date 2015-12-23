@@ -3,7 +3,7 @@ define(function (require) {
     require("AuthService");
     require("ngMaterial");
     function shellController($scope, $rootScope, $location, AuthService,
-                             ngToast, ResourceService, $mdSidenav, $state) {
+                             ngToast, ResourceService, $mdSidenav, $state,$mdMedia,$mdDialog) {
         var self = this;
         $scope.menu = [
             {
@@ -12,7 +12,7 @@ define(function (require) {
                 icon: 'action:ic_dashboard_24px' // we have to use Google's naming convention for the IDs of the SVGs in the spritesheet
             },
             {
-                link: 'userGroups',
+                link: 'dashboard',
                 title: 'Groups',
                 icon: 'social:ic_group_24px'
             },
@@ -106,9 +106,67 @@ define(function (require) {
             $scope.vm.authenticate = false;
             $scope.vm.currentUser = {};
         });
+
+
+        $scope.showAdvanced = function(ev) {
+            var useFullScreen = ($mdMedia('sm') || $mdMedia('xs'))  && $scope.customFullscreen;
+            $mdDialog.show({
+                    controller: DialogController,
+                    templateUrl: '/public/welcome/views/dialogs/newGroup.html',
+                    parent: angular.element(document.body),
+                    targetEvent: ev,
+                    clickOutsideToClose:true,
+                    fullscreen: useFullScreen
+                })
+                .then(function(answer) {
+                    $scope.status = 'You said the information was "' + answer + '".';
+                }, function() {
+                    $scope.status = 'You cancelled the dialog.';
+                });
+            $scope.$watch(function() {
+                return $mdMedia('xs') || $mdMedia('sm');
+            }, function(wantsFullScreen) {
+                $scope.customFullscreen = (wantsFullScreen === true);
+            });
+            function DialogController($scope, $mdDialog) {
+
+                $scope.users = [
+                    {
+                        username: "shy",
+                        id: "1234"
+                    },
+                    {
+                        username: "alter",
+                        id: "4321"
+                    }
+                ];
+                $scope.admins = [
+                    {
+                        username: "shy",
+                        id: "1234"
+                    },
+                    {
+                        username: "alter",
+                        id: "4321"
+                    }
+                ];
+
+                $scope.hide = function() {
+                    $mdDialog.hide();
+                };
+                $scope.cancel = function() {
+                    $mdDialog.cancel();
+                };
+                $scope.answer = function(answer) {
+                    $mdDialog.hide(answer);
+                };
+            }
+        };
+
+
     };
     shellController.$inject = ['$scope', '$rootScope', '$location', 'AuthService',
-        'ngToast', 'ResourceService', '$mdSidenav', '$state'];
+        'ngToast', 'ResourceService', '$mdSidenav', '$state','$mdMedia','$mdDialog'];
     return shellController;
 })
 ;

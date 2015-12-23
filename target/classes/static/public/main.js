@@ -12,7 +12,7 @@ require.config({
         ngAria: '../bower_components/angular-aria/angular-aria',
         AuthService: 'welcome/js/services/AuthService',
         GroupService: 'welcome/js/services/GroupService',
-        QuestionService: 'welcome/js/services/QuestionService',
+        QuestionService: 'welcome/js/services/QuestionService'
     },
     shim: {
         angular: {
