@@ -3,5 +3,7 @@
   "logout_success": "You have been logged out successfully",
   "create_success": "You have been signup successfully",
   "create_group_success": "New group created",
+  "group_deleted": "The group was deleted successfully",
+  "question_deleted": "The question was deleted successfully",
   "create_question_success": "New question created"
 }

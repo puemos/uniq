@@ -1,10 +1,10 @@
 define(function (require) {
     'use strict';
-    require("AuthService");
-    function homeController($scope, AuthService) {
+    require("UserService");
+    function homeController($scope, UserService) {
 
     };
 
-    homeController.$inject = ['$scope', 'AuthService'];
+    homeController.$inject = ['$scope', 'UserService'];
     return homeController;
 });

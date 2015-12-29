@@ -1,0 +1,57 @@
+<md-dialog aria-label="" ng-cloak class="fullscreen-dialog" flex>
+    <md-toolbar>
+        <md-progress-linear style="position: absolute;" ng-show="loading" class="md-warn md-hue-2" md-mode="query"
+                            md-diameter="20"></md-progress-linear>
+        <div class="md-toolbar-tools">
+            New Question
+            <span flex></span>
+            <md-button class="md-icon-button" ng-click="cancel()">
+                <i class="material-icons">close</i>
+            </md-button>
+        </div>
+    </md-toolbar>
+    <form name="newQuestionForm" data-ng-submit="createQuestion(question)">
+        <md-dialog-content>
+            <div class="md-dialog-content">
+                <md-input-container>
+                    <label>Title:</label>
+                    <input name="title" ng-model="question.title" ng-minlength="6" required>
+                    <div ng-messages="newQuestionForm.title.$error" ng-if="newQuestionForm.title.$touched">
+                        <div ng-message="required">Title is required.</div>
+                        <div ng-message="minlength">must have minimum 6 characters</div>
+                    </div>
+                </md-input-container>
+                <md-input-container>
+                    <label>Description:</label>
+                    <textarea ng-model="question.description" columns="1" ng-minlength="6" md-maxlength="150" rows="10"></textarea>
+                    <div ng-messages="newQuestionForm.description.$error"
+                         ng-if="newQuestionForm.description.$touched">
+                        <div ng-message="required">Description is required.</div>
+                        <div ng-message="minlength">must have minimum 6 characters</div>
+                        <div ng-message="maxlength">maximum 150 characters</div>
+                    </div>
+                </md-input-container>
+                <md-input-container class="md-block" flex-gt-sm>
+                    <label>Group</label>
+                    <md-select name="group" ng-model="question.groupId" required>
+                        <md-option ng-repeat="(id,group) in currentUser.groups" value="{{id}}">
+                            {{group}}
+                        </md-option>
+                    </md-select>
+                    <div ng-messages="newQuestionForm.group.$error"
+                         ng-if="newQuestionForm.group.$touched">
+                        <div ng-message="required">Group is required.</div>
+                    </div>
+                </md-input-container>
+            </div>
+        </md-dialog-content>
+        <md-dialog-actions style="order: 1;" md-theme="pink" layout="row" layout-align="center center">
+            <md-button class="md-primary" ng-disabled="newQuestionForm.$invalid" type="submit"
+                       ng-class="{'md-raised': (newQuestionForm.$dirty && newQuestionForm.$valid) }"
+                       aria-label="Save Project">Send
+            </md-button>
+            <md-button class="md-raised" ng-click="reset()">Reset</md-button>
+        </md-dialog-actions>
+    </form>
+</md-dialog>
+

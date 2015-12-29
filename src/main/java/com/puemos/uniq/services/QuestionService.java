@@ -29,6 +29,8 @@ public class QuestionService {
     private QuestionRepository questionRepository;
     @Autowired
     private GroupService groupService;
+    @Autowired
+    private UserService userService;
 
     /**
      * add Answer to the Question
@@ -48,13 +50,14 @@ public class QuestionService {
     }
     /**
      * add Answer to the Question
-     *
      * @param questionId  - the currently question
      * @param description - the new description
+     * @param userId - the current user Id
      */
     @Transactional
-    public void updateDescriptionQuestion(String questionId, String description) throws NotFoundException {
+    public void updateDescriptionQuestion(String questionId, String description, String userId) throws NotFoundException, InputException {
         Question question = questionRepository.findOne(questionId);
+        isUser(question, userId);
         if (question == null) {
             throw new NotFoundException("no_such_answer");
         }
@@ -119,4 +122,34 @@ public class QuestionService {
         return questionPage;
     }
 
+    /**
+     * delete group questions
+     *
+     * @param questionIds - the ids of the questions
+     */
+    @Transactional
+    public void deleteQuestionsFromGroup(List<String> questionIds) throws NotFoundException {
+        questionIds.forEach(id -> questionRepository.delete(id));
+    }
+
+    /**
+     * delete question
+     *
+     * @param questionId - the id of the question
+     */
+    @Transactional
+    public void deleteQuestion(String questionId, String userId) throws NotFoundException, InputException {
+        Question question = questionRepository.findOne(questionId);
+        isUser(question, userId);
+        userService.deleteQuestionFromUser(questionId,userId);
+        questionRepository.delete(questionId);
+    }
+
+    private boolean isUser(Question question, String userId) throws InputException {
+        if (!question.getUserId().equalsIgnoreCase(userId)) {
+            throw new InputException("not_user");
+        } else {
+            return true;
+        }
+    }
 }

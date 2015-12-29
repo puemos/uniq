@@ -1,27 +1,38 @@
 define(function (require) {
     'use strict';
     require("jquery");
-    require("AuthService");
+    require("UserService");
     require("GroupService");
     require("ngUiRouter");
-    function dashboardController($scope, $location, $stateParams, AuthService, ngToast,
-                              ResourceService, GroupService, QuestionService, $rootScope) {
+    function dashboardController($scope, $location, $stateParams, $mdToast,
+                                 ResourceService, ToastService, GroupService, QuestionService, $rootScope) {
         $rootScope.$broadcast('loading:start', true);
-        var fieldWithFocus;
+        function backToDashboard() {
+            $mdToast.show(ToastService.createSimpleToast(ResourceService.getErrorMsg('empty_group')));
+            $location.path('/dashboard');
+        }
+
+
+        if ($stateParams.groupId == null || $stateParams.groupId == undefined) {
+            backToDashboard();
+        }
         $scope.vm = {
-            disableForm: false,
             errorMessages: [],
-            addQ: false,
-            userQuery: ""
+            emptyQuestions: true
         };
-        var updateGroupInfo = function (groupId) {
-            GroupService.getGroupDetails(groupId)
+        var updateGroupInfo = function () {
+            GroupService.getGroupDetails($stateParams.groupId)
                 .then(
                     function (data) {
                         $scope.currentGroup = data;
+                        if (data.questions.length) {
+                            $scope.vm.emptyQuestions = false;
+                        }
+                        getGroupQuestions($stateParams.groupId, 0, 10);
                     },
                     function (msg) {
                         console.log(msg);
+                        backToDashboard();
                     })
         };
         var getGroupQuestions = function (groupId, page, size) {
@@ -31,20 +42,16 @@ define(function (require) {
                     $rootScope.$broadcast('loading:stop', true);
                 })
         };
-        if ($stateParams.groupId != null && $stateParams.groupId != undefined) {
-            updateGroupInfo($stateParams.groupId);
-            getGroupQuestions($stateParams.groupId, 0, 10);
-        }
+        updateGroupInfo();
         $scope.createQuestion = function () {
             $scope.vm.disableForm = true;
             $scope.vm.newQ.groupId = $scope.currentGroup.id;
             QuestionService.createQuestion($scope.vm.newQ).then(
                 function (msg) {
-                    ngToast.success(ResourceService.getMsg(msg));
-                    updateGroupInfo($scope.currentGroup.id);
+                    $mdToast.show(ToastService.createSimpleToast(ResourceService.getMsg(msg)));
                 },
                 function (code) {
-                    ngToast.danger(ResourceService.getErrorMsg(code));
+                    $mdToast.show(ToastService.createSimpleToast(ResourceService.getErrorMsg(code)));
                 })
                 .finally(
                     function () {
@@ -52,9 +59,24 @@ define(function (require) {
                         $scope.vm.disableForm = false;
                     });
         };
+        $scope.deleteQuestion = function (questionId) {
+            $rootScope.$broadcast('loading:start', true);
+            QuestionService.deleteQuestion(questionId).then(
+                function (res) {
+                    $mdToast.show(ToastService.createSimpleToast(ResourceService.getMsg('question_deleted')));
+                },
+                function (err) {
+                    $rootScope.$broadcast('loading:stop', true);
+                    $mdToast.show(ToastService.createSimpleToast(ResourceService.getErrorMsg(err)));
+                });
+        };
+        $scope.$on('question:change', function (event, data) {
+            updateGroupInfo();
+        })
     }
-    dashboardController.$inject = ['$scope', '$location', '$stateParams', 'AuthService',
-        'ngToast', 'ResourceService', 'GroupService',
+
+    dashboardController.$inject = ['$scope', '$location', '$stateParams',
+        '$mdToast', 'ResourceService', 'ToastService', 'GroupService',
         'QuestionService', '$rootScope'];
     return dashboardController;
 });

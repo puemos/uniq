@@ -1,36 +1,42 @@
 define(function (require) {
     'use strict';
-    require("AuthService");
-    function loginController($scope, $location, AuthService, $mdToast, ResourceService,$rootScope) {
+    require("UserService");
+    function loginController($scope, $location, UserService, $mdToast, ResourceService, ToastService, $rootScope, $mdDialog) {
         $scope.credentials = {};
-        function createSimpleToast(text) {
-            return $mdToast.simple()
-                .content(text)
-                .hideDelay(3000)
-        }
+        $scope.loading = false;
 
+        $scope.hide = function () {
+            $mdDialog.hide();
+        };
+        $scope.reset = function () {
+            $scope.credentials = {
+                username: "",
+                password: "",
+            };
+            $scope.loginForm.$setUntouched();
+        };
+        $scope.cancel = function () {
+            $mdDialog.cancel();
+        };
         var successLogin = function () {
             $location.path("/dashboard");
-            $mdToast.show(
-                createSimpleToast(ResourceService.getMsg('login_success'))
-            );
+            $mdToast.show(ToastService.createSimpleToast(ResourceService.getMsg('login_success')));
+            $scope.hide();
         };
         var failLogin = function (code) {
-            $mdToast.show(
-                createSimpleToast(ResourceService.getErrorMsg(code))
-            );
+            $mdToast.show(ToastService.createSimpleToast(ResourceService.getErrorMsg(code)));
         };
         var finallyLogin = function () {
-            $rootScope.$broadcast('loading:stop', true);
+            $scope.loading = false;
         };
         $scope.login = function () {
-            $rootScope.$broadcast('loading:start', true);
-            AuthService.login($scope.credentials).then(successLogin, failLogin).finally(finallyLogin);
+            $scope.loading = true;
+            UserService.login($scope.credentials).then(successLogin, failLogin).finally(finallyLogin);
         }
         $scope.reset = function () {
             $scope.credentials = {};
         }
     };
-    loginController.$inject = ['$scope', '$location', 'AuthService', '$mdToast', 'ResourceService', '$rootScope'];
+    loginController.$inject = ['$scope', '$location', 'UserService', '$mdToast', 'ResourceService', 'ToastService', '$rootScope', '$mdDialog'];
     return loginController;
 });

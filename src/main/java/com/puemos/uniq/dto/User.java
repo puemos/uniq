@@ -1,6 +1,7 @@
 package com.puemos.uniq.dto;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.data.annotation.Id;
@@ -17,6 +18,7 @@ public class User {
     private String lastname;
     private String role;
     private Map<String,String> groups;
+    private List<String> questions;
 
 
     public User(User user) {
@@ -28,6 +30,7 @@ public class User {
         this.lastname = user.getLastname();
         this.role = "ROLE_USER";
         this.groups = user.getGroups();
+        this.questions = user.getQuestions();
     }
 
 
@@ -36,7 +39,8 @@ public class User {
                 String email,
                 String firstname,
                 String lastname,
-                Map<String, String> groups) {
+                Map<String, String> groups,
+                List<String> questions) {
         this.username = username;
         this.email = email;
         this.password = password;
@@ -44,6 +48,7 @@ public class User {
         this.lastname = lastname;
         this.role = "ROLE_USER";
         this.groups = groups;
+        this.questions = questions;
     }
 
     public User(String username,
@@ -67,6 +72,13 @@ public class User {
     }
     public void setGroups(Map<String, String> groups) {
         this.groups = groups;
+    }
+
+    public List<String> getQuestions() {
+        return questions;
+    }
+    public void setQuestions(List<String> questions) {
+        this.questions = questions;
     }
     public String getId() {
         return id;
@@ -132,10 +144,18 @@ public class User {
         this.groups.remove(groupId);
     }
 
+    public void addQuestion(String questionId) {
+        this.questions.add(questionId);
+    }
+
+    public void removeQuestion(String questionId) {
+        this.questions.remove(questionId);
+    }
+
     public void prepareForSearch(){
         this.groups = null;
+        this.questions = null;
         this.password = null;
-        this.id = null;
     }
 
 } // class User

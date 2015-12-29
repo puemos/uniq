@@ -1,9 +1,9 @@
 define(function (require) {
     'use strict';
-    require("AuthService");
+    require("UserService");
     require("ngMaterial");
-    function shellController($scope, $rootScope, $location, AuthService,
-                             ngToast, ResourceService, $mdSidenav, $state,$mdMedia,$mdDialog) {
+    function shellController($scope, $rootScope, $location, UserService,
+                             $mdToast, ResourceService, ToastService, $mdSidenav, $state, $mdMedia, $mdDialog) {
         var self = this;
         $scope.menu = [
             {
@@ -35,7 +35,6 @@ define(function (require) {
             }
         ];
         $scope.vm = {
-            currentUser: {},
             authenticate: false,
             group: false,
             state: $rootScope.$state,
@@ -49,9 +48,9 @@ define(function (require) {
             }
         };
         var getCurrentUserDetails = function () {
-            AuthService.getUserDetails().then(
+            UserService.getUserDetails().then(
                 function (data) {
-                    $scope.vm.currentUser = data;
+                    self.currentUser = data;
                 },
                 function (msg) {
                     console.log(msg);
@@ -60,7 +59,7 @@ define(function (require) {
                 });
         };
         var updateUserDetails = function () {
-            AuthService.isLoggedIn()
+            UserService.isLoggedIn()
                 .then(
                     function () {
                         $scope.vm.authenticate = true;
@@ -84,13 +83,31 @@ define(function (require) {
             $mdSidenav(menuId).toggle();
         };
         $scope.logout = function () {
-            AuthService.logout()
+            UserService.logout()
                 .then(function () {
                     $location.path("/home");
-                    ngToast.success(ResourceService.getMsg('logout_success'));
+                    $mdToast.show(ToastService.createSimpleToast(ResourceService.getMsg('logout_success')));
                 }, function (code) {
-                    ngToast.danger(ResourceService.getErrorMsg(code));
+                    $mdToast.show(ToastService.createSimpleToast(ResourceService.getErrorMsg(code)));
                 })
+        };
+        self.showDialog = function (ev, dialogName, data) {
+            var config = {
+                controller: dialogName + 'Controller',
+                templateUrl: '/public/welcome/views/dialogs/' + dialogName + '.html',
+                parent: angular.element(document.body),
+                targetEvent: ev,
+                clickOutsideToClose: true
+            };
+            if (data) {
+                config.locals = {data: data};
+            }
+            $mdDialog.show(config)
+                .then(function (answer) {
+                    $scope.status = 'You said the information was "' + answer + '".';
+                }, function () {
+                    $scope.status = 'You cancelled the dialog.';
+                });
         };
         /*Observers*/
         $scope.$on('loading:start', function (event, data) {
@@ -102,71 +119,16 @@ define(function (require) {
         $scope.$on('user:login', function (event, data) {
             updateUserDetails();
         });
+        $scope.$on('user:created', function (event, data) {
+            updateUserDetails();
+        });
         $scope.$on('user:logout', function (event, data) {
             $scope.vm.authenticate = false;
             $scope.vm.currentUser = {};
         });
-
-
-        $scope.showAdvanced = function(ev) {
-            var useFullScreen = ($mdMedia('sm') || $mdMedia('xs'))  && $scope.customFullscreen;
-            $mdDialog.show({
-                    controller: DialogController,
-                    templateUrl: '/public/welcome/views/dialogs/newGroup.html',
-                    parent: angular.element(document.body),
-                    targetEvent: ev,
-                    clickOutsideToClose:true,
-                    fullscreen: useFullScreen
-                })
-                .then(function(answer) {
-                    $scope.status = 'You said the information was "' + answer + '".';
-                }, function() {
-                    $scope.status = 'You cancelled the dialog.';
-                });
-            $scope.$watch(function() {
-                return $mdMedia('xs') || $mdMedia('sm');
-            }, function(wantsFullScreen) {
-                $scope.customFullscreen = (wantsFullScreen === true);
-            });
-            function DialogController($scope, $mdDialog) {
-
-                $scope.users = [
-                    {
-                        username: "shy",
-                        id: "1234"
-                    },
-                    {
-                        username: "alter",
-                        id: "4321"
-                    }
-                ];
-                $scope.admins = [
-                    {
-                        username: "shy",
-                        id: "1234"
-                    },
-                    {
-                        username: "alter",
-                        id: "4321"
-                    }
-                ];
-
-                $scope.hide = function() {
-                    $mdDialog.hide();
-                };
-                $scope.cancel = function() {
-                    $mdDialog.cancel();
-                };
-                $scope.answer = function(answer) {
-                    $mdDialog.hide(answer);
-                };
-            }
-        };
-
-
     };
-    shellController.$inject = ['$scope', '$rootScope', '$location', 'AuthService',
-        'ngToast', 'ResourceService', '$mdSidenav', '$state','$mdMedia','$mdDialog'];
+    shellController.$inject = ['$scope', '$rootScope', '$location', 'UserService',
+        '$mdToast', 'ResourceService', 'ToastService', '$mdSidenav', '$state', '$mdMedia', '$mdDialog'];
     return shellController;
 })
 ;

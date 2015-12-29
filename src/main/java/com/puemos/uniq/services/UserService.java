@@ -2,18 +2,23 @@ package com.puemos.uniq.services;
 
 import com.puemos.uniq.dao.UserRepository;
 import com.puemos.uniq.dto.Client;
+import com.puemos.uniq.dto.Question;
 import com.puemos.uniq.dto.User;
 import com.puemos.uniq.exceptions.NotFoundException;
 import com.puemos.uniq.exceptions.InputException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 import java.util.regex.Pattern;
 
 
@@ -31,6 +36,8 @@ public class UserService {
 
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private QuestionService questionService;
 
     /**
      * add Group to user
@@ -75,7 +82,8 @@ public class UserService {
                 email,
                 firstname,
                 lastname,
-                new HashMap<>());
+                new HashMap<>(),
+                new ArrayList<>());
 
         userRepository.save(user);
     }
@@ -104,6 +112,12 @@ public class UserService {
         return userRepository.findByUsernameLikeOrderByUsername(username);
     }
 
+    @Transactional(readOnly = true)
+    public List<User> findAllUsersByQuery(String query) {
+
+        return userRepository.findFirst10ByLastnameLikeOrFirstnameLikeOrUsernameLikeAllIgnoreCaseOrderByLastnameAsc(query,query,query);
+    }
+
     private boolean isUsernameAvailable(String username) {
         User user = userRepository.findByUsername(username);
         return (user == null);
@@ -113,5 +127,48 @@ public class UserService {
     public User getCurrentUser(Principal principal) throws NotFoundException {
         String id = ((Client) ((UsernamePasswordAuthenticationToken) principal).getPrincipal()).getUserId();
         return this.findUserById(id);
+    }
+
+    /**
+     * delete a group from users data
+     *
+     * @param userIds - the id of the users
+     * @param groupId - the id of the group
+     */
+    @Transactional
+    public void deleteGroupFromUsers(Set<String> userIds, String groupId) {
+        userIds.forEach((id)-> {
+            User user = userRepository.findById(id);
+            user.removeGroup(groupId);
+            userRepository.save(user);
+        });
+    }
+
+    /**
+     * get the user questions
+     *
+     * @param userId     - the currently group
+     * @param pageRequest
+     */
+    @Transactional
+    public Page<Question> getUserQuestions(String userId, PageRequest pageRequest) throws NotFoundException {
+        User user = userRepository.findOne(userId);
+        if (user == null) {
+            throw new NotFoundException("no_such_user");
+        }
+        return questionService.findQuestionById(user.getQuestions(), pageRequest);
+    }
+
+    /**
+     * delete a question from users data
+     *
+     * @param userId - the id of the users
+     * @param questionId - the id of the question
+     */
+    @Transactional
+    public void deleteQuestionFromUser(String questionId, String userId) {
+        User user = userRepository.findById(userId);
+        user.removeQuestion(questionId);
+        userRepository.save(user);
     }
 }

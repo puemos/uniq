@@ -24,9 +24,8 @@ public class ServletContextConfig extends WebMvcConfigurerAdapter {
         registry.addViewController("/home").setViewName("forward:/public/app.html");
         registry.addViewController("/about").setViewName("forward:/public/app.html");
         registry.addViewController("/login").setViewName("forward:/public/app.html");
-        registry.addViewController("/userGroups").setViewName("forward:/public/app.html");
+        registry.addViewController("/dashboard").setViewName("forward:/public/app.html");
         registry.addViewController("/group/**").setViewName("forward:/public/app.html");
-        registry.addViewController("/signup").setViewName("forward:/public/app.html");
     }
 
 }

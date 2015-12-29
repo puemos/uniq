@@ -1,11 +1,14 @@
 define(['ngLocalStorage'], function () {
     'use strict';
     require("ngLocalStorage");
+    var angular = require("angular");
+
     function GroupService($http, $q, $rootScope) {
         var that = this;
         var prepareCreateGroupData = function (details) {
             var postData = {};
-            postData.title = details != undefined ? details : '';
+            postData.title = details.title != undefined ? details.title : '';
+            postData.users = details.users != undefined ? details.users : {};
             return postData;
         };
         this.currentGroup = {};
@@ -23,9 +26,34 @@ define(['ngLocalStorage'], function () {
                     }
                 })
                 .success(function (response) {
+                    $rootScope.$broadcast('groups:change', true);
                     deferred.resolve("create_group_success");
                 })
                 .error(function (error, status) {
+                    deferred.reject(error);
+                });
+            return deferred.promise;
+        };
+        this.deleteGroup = function (groupId) {
+            var deferred = $q.defer();
+            $http(
+                {
+                    method: 'DELETE',
+                    url: '/group',
+                    data: {groupId: groupId},
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Accept": "text/plain, application/json"
+                    }
+                })
+                .success(function (response) {
+                    $rootScope.$broadcast('groups:change', true);
+                    deferred.resolve("delete_group_success");
+                })
+                .error(function (error, status) {
+                    if (angular.isString(error.message)) {
+                        error = error.message;
+                    }
                     deferred.reject(error);
                 });
             return deferred.promise;
@@ -42,7 +70,7 @@ define(['ngLocalStorage'], function () {
                 })
                 .success(function (data) {
                     that.currentGroup = data;
-                    $rootScope.$broadcast('group:in', true);
+                    $rootScope.$broadcast('groups:change', true);
                     deferred.resolve(data);
                 })
                 .error(function (error, status) {
@@ -78,6 +106,7 @@ define(['ngLocalStorage'], function () {
         };
         return this;
     }
+
     GroupService.$inject = ['$http', '$q', '$rootScope'];
     return GroupService;
 });

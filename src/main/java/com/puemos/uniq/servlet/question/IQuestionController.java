@@ -31,4 +31,8 @@ public interface IQuestionController {
     @RequestMapping(value = "/qaddvote", method = RequestMethod.POST)
     @PreAuthorize("hasRole('ROLE_USER')")
     ResponseEntity<String> addVoteToQuestion(@RequestBody Map<String, Object> requestData, Principal principal) throws NotFoundException, InputException;
+
+    @RequestMapping(value = "/question", method = RequestMethod.DELETE)
+    @PreAuthorize("hasRole('ROLE_USER')")
+    ResponseEntity<String> deleteQuestion(@RequestBody Map<String, String> requestData, Principal principal) throws NotFoundException, InputException;
 }

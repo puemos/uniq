@@ -1,25 +1,35 @@
 define(function (require) {
     'use strict';
-    require("jquery");
-    require("AuthService");
+    require("UserService");
     require("GroupService");
     require("ngUiRouter");
-    function dashboardController($scope, $location, AuthService, ngToast,
-                                 ResourceService, GroupService, $rootScope) {
+    function dashboardController($scope, $location, UserService, GroupService, ResourceService, ToastService, $rootScope, $mdToast) {
+        $scope.vm = {
+            errorMessages: [],
+            emptyGroups: true
+        };
         $rootScope.$broadcast('loading:start', true);
         $scope.gotoGroup = function (groupId) {
             $location.path("/groupinfo/" + groupId);
         };
-        $scope.vm = {
-            disableForm: false,
-            errorMessages: [],
-            addQ: false,
-            userQuery: ""
+        $scope.deleteGroup = function (groupId) {
+            $rootScope.$broadcast('loading:start', true);
+            GroupService.deleteGroup(groupId).then(
+                function (res) {
+                    $mdToast.show(ToastService.createSimpleToast(ResourceService.getMsg('group_deleted')));
+                },
+                function (err) {
+                    $rootScope.$broadcast('loading:stop', true);
+                    $mdToast.show(ToastService.createSimpleToast(ResourceService.getErrorMsg(err)));
+                });
         };
         var updateUserInfo = function () {
-            AuthService.getUserDetails()
+            UserService.getUserDetails()
                 .then(
                     function (data) {
+                        if (Object.keys(data.groups).length) {
+                            $scope.vm.emptyGroups = false;
+                        }
                         $scope.currentUser = data;
                     },
                     function (msg) {
@@ -28,30 +38,18 @@ define(function (require) {
                 .finally(
                     function () {
                         $rootScope.$broadcast('loading:stop', true);
-                    })
+                    });
+            UserService.getUserQuestions(0, 10);
         };
         updateUserInfo();
-        $scope.createGroup = function () {
-            $scope.vm.disableForm = true;
-            $rootScope.$broadcast('loading:start', true);
-            GroupService.createGroup($scope.vm.newGroupTitle).then(
-                function (msg) {
-                    ngToast.success(ResourceService.getMsg(msg));
-                    updateUserInfo();
-                },
-                function (code) {
-                    ngToast.danger(ResourceService.getErrorMsg(code));
-                })
-                .finally(
-                    function () {
-                        $scope.vm.newGroupTitle = "";
-                        $scope.vm.disableForm = false;
-                        $rootScope.$broadcast('loading:stop', true);
-                    });
-        };
-    };
-    dashboardController.$inject = ['$scope', '$location', 'AuthService',
-        'ngToast', 'ResourceService', 'GroupService',
-        '$rootScope'];
+        $scope.$on('group:change', function (event, data) {
+            updateUserInfo();
+        });
+        $scope.$on('user:login', function (event, data) {
+            updateUserInfo();
+        });
+    }
+
+    dashboardController.$inject = ['$scope', '$location', 'UserService', 'GroupService', 'ResourceService', 'ToastService', '$rootScope', '$mdToast'];
     return dashboardController;
 });

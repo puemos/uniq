@@ -3,26 +3,30 @@ define(function (require) {
         name = "welcome",
         ngModule;
     var
-        /*Controllers*/
+    /*Controllers*/
         homeController = require("welcome/js/controllers/homeController"),
         loginController = require("welcome/js/controllers/loginController"),
-        dashboardController = require("welcome/js/controllers/dashboardController"),
         shellController = require("welcome/js/controllers/shellController"),
-        signupController = require("welcome/js/controllers/signupController"),
         searchController = require("welcome/js/controllers/searchController"),
         dashboardController = require("welcome/js/controllers/dashboardController"),
-	groupController = require("welcome/js/controllers/groupController"),
-        /*Services*/
-        AuthService = require("AuthService"),
+        groupController = require("welcome/js/controllers/groupController"),
+    /*Dialogs*/
+        newUserController = require("welcome/js/controllers/dialogs/newUserController"),
+        newGroupController = require("welcome/js/controllers/dialogs/newGroupController"),
+        newQuestionController = require("welcome/js/controllers/dialogs/newQuestionController"),
+        questionController = require("welcome/js/controllers/dialogs/questionController"),
+    /*Services*/
+        UserService = require("UserService"),
         GroupService = require("GroupService"),
         QuestionService = require("QuestionService"),
-        AuthServiceProvider = require("welcome/js/services/AuthServiceProvider"),
+        UserServiceProvider = require("welcome/js/services/UserServiceProvider"),
         ResourceService = require("welcome/js/services/ResourceService"),
-        /*Directives*/
+        ToastService = require("welcome/js/services/ToastService"),
+    /*Directives*/
         goClickDirective = require("welcome/js/directives/goClick"),
-        /*Configs*/
+        equalsDirective = require("welcome/js/directives/equals"),
+    /*Configs*/
         routerConfig = require("welcome/js/config/router"),
-        toastConfig = require("welcome/js/config/toast"),
         iconsConfig = require("welcome/js/config/icons"),
         themeConfig = require("welcome/js/config/theme"),
         localStorageConfig = require("welcome/js/config/localStorage");
@@ -31,18 +35,22 @@ define(function (require) {
         .controller("dashboardController", dashboardController)
         .controller("loginController", loginController)
         .controller("shellController", shellController)
-        .controller("signupController", signupController)
+        .controller("newUserController", newUserController)
+        .controller("newGroupController", newGroupController)
+        .controller("newQuestionController", newQuestionController)
         .controller("searchController", searchController)
         .controller("dashboardController", dashboardController)
         .controller("groupController", groupController)
-        .factory('AuthService', AuthService)
+        .controller("questionController", questionController)
+        .factory('UserService', UserService)
         .factory('GroupService', GroupService)
         .factory('QuestionService', QuestionService)
         .service('ResourceService', ResourceService)
-        .provider('AuthServiceProvider', AuthServiceProvider)
+        .service('ToastService', ToastService)
+        .provider('UserServiceProvider', UserServiceProvider)
         .directive('goClick', goClickDirective)
+        .directive('equals', equalsDirective)
         .config(routerConfig)
-        .config(toastConfig)
         .config(localStorageConfig)
         .config(iconsConfig)
         .config(themeConfig);

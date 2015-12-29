@@ -8,11 +8,6 @@ define(['require', 'ngUiRouter'], function (require) {
                 url: "/home",
                 templateUrl: "/public/welcome/views/home.html",
             })
-            .state('login', {
-                url: "/login",
-                controller: 'loginController',
-                templateUrl: "/public/welcome/views/login.html"
-            })
             .state('dashboard', {
                 url: "/dashboard",
                 controller: 'dashboardController',
@@ -22,11 +17,6 @@ define(['require', 'ngUiRouter'], function (require) {
                 url: "/groupinfo/{groupId}",
                 controller: 'groupController',
                 templateUrl: "/public/welcome/views/group.html"
-            })
-            .state('signup', {
-                url: "/signup",
-                controller: 'signupController',
-                templateUrl: "/public/welcome/views/signup.html"
             })
             .state('about', {
                 url: "/about",

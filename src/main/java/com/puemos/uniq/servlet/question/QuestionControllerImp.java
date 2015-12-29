@@ -50,4 +50,11 @@ public class QuestionControllerImp implements IQuestionController {
         return new ResponseEntity<>("question_add_vote", HttpStatus.OK);
 
     }
+    @Override
+    public ResponseEntity<String> deleteQuestion(@RequestBody Map<String, String> requestData, Principal principal) throws NotFoundException, InputException {
+        User user = userService.getCurrentUser(principal);
+        questionService.deleteQuestion(requestData.get("questionId"), user.getId());
+        return new ResponseEntity<>("question_deleted", HttpStatus.OK);
+
+    }
 }

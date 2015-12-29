@@ -16,4 +16,6 @@ public interface UserRepository extends MongoRepository<User, String> {
 
     List<User> findByUsernameLikeOrderByUsername(String regexp);
 
+    List<User> findFirst10ByLastnameLikeOrFirstnameLikeOrUsernameLikeAllIgnoreCaseOrderByLastnameAsc(String lastname, String firstname, String username);
+
 }

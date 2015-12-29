@@ -7,10 +7,9 @@ require.config({
         ngLocalStorage: '../bower_components/angular-local-storage/dist/angular-local-storage',
         ngAnimate: '../bower_components/angular-animate/angular-animate',
         ngSanitize: '../bower_components/angular-sanitize/angular-sanitize',
-        ngToast: '../bower_components/ngToast/dist/ngToast',
         ngMaterial: '../bower_components/angular-material/angular-material',
         ngAria: '../bower_components/angular-aria/angular-aria',
-        AuthService: 'welcome/js/services/AuthService',
+        UserService: 'welcome/js/services/UserService',
         GroupService: 'welcome/js/services/GroupService',
         QuestionService: 'welcome/js/services/QuestionService'
     },
@@ -34,9 +33,6 @@ require.config({
             deps: ["angular"]
         },
         ngSanitize: {
-            deps: ["angular"]
-        },
-        ngToast: {
             deps: ["angular"]
         },
         ngMaterial: {

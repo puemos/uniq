@@ -4,15 +4,20 @@ package com.puemos.uniq.servlet.user;
  * Created by shy on 23/11/15.
  */
 
+import com.puemos.uniq.dto.Question;
 import com.puemos.uniq.dto.User;
 import com.puemos.uniq.exceptions.InputException;
 import com.puemos.uniq.exceptions.NotFoundException;
 import com.puemos.uniq.services.UserService;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import java.io.IOException;
@@ -41,7 +46,7 @@ public class UsersControllerImp implements IUserController {
 
     @Override
     public ResponseEntity<List<User>> findUsers(@RequestBody Map<String, String> requestData) {
-        List<User> users = userService.findAllUsersByUsername(requestData.get("query"));
+        List<User> users = userService.findAllUsersByQuery(requestData.get("query"));
         users.forEach(User::prepareForSearch);
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
@@ -53,6 +58,14 @@ public class UsersControllerImp implements IUserController {
                 user.getFirstname(), user.getLastname());
         return (new ResponseEntity<>("user created", HttpStatus.OK));
 
+    }
+
+    @Override
+    public ResponseEntity<Page<Question>> getUserQuestions(@RequestBody Map<String, Integer> requestData,Principal principal) throws NotFoundException {
+        PageRequest pageRequest = new PageRequest(requestData.get("page"),requestData.get("size"), Sort.Direction.DESC,"rate");
+        String id = userService.getCurrentUser(principal).getId();
+        Page<Question> questionPage = userService.getUserQuestions(id, pageRequest);
+        return new ResponseEntity<>(questionPage, HttpStatus.OK);
     }
 
     @Override

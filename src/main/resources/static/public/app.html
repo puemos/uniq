@@ -53,14 +53,11 @@
             <md-button ui-sref="about" class="menu-text-btn" hide show-gt-sm aria-label="About">
                 About
             </md-button>
-            <md-button ui-sref="userGroups" ng-show="vm.authenticate" class="menu-text-btn" hide show-gt-sm
+            <md-button ui-sref="dashboard" ng-show="vm.authenticate" class="menu-text-btn" hide show-gt-sm
                        aria-label="Groups">
                 Groups
             </md-button>
             <span flex></span>
-            <md-button ui-sref="signup" ng-hide="vm.authenticate" class="md-raised md-primary" aria-label="signup">
-                SignUp
-            </md-button>
             <md-button class="md-icon-button" aria-label="Search" ng-click="toggleSearch()">
                 <md-icon md-svg-icon="action:ic_search_24px" aria-label="Search"></md-icon>
             </md-button>
@@ -81,7 +78,7 @@
         <md-fab-actions>
             <div>
                 <md-button aria-label="login" class="md-fab md-raised md-mini"
-                           ng-click=goRoute("login")>
+                           ng-click=shell.showDialog($event,"login")>
                     <md-tooltip md-direction="left" md-visible="tooltipVisible"
                                 md-autohide="false">
                         Login
@@ -101,7 +98,7 @@
             </div>
             <div>
                 <md-button aria-label="user" class="md-fab md-raised md-mini"
-                           ng-click=goRoute(vm.currentUser.id)>
+                           ng-click=goRoute(shell.currentUser.id)>
                     <md-tooltip md-direction="left" md-visible="tooltipVisible"
                                 md-autohide="false">
                         Logout
@@ -111,19 +108,18 @@
             </div>
         </md-fab-actions>
     </md-fab-speed-dial>
-    <md-fab-speed-dial style="right: 80px;" md-direction="left"
+    <md-fab-speed-dial ng-show="vm.authenticate" style="right: 80px;" md-direction="up"
                        class="md-scale md-fab-bottom-right md-hover-full">
         <md-fab-trigger>
             <md-button aria-label="menu" class="md-fab md-accent">
-                <md-tooltip md-direction="top" md-visible="tooltipVisible">Menu</md-tooltip>
                 <i class="material-icons">mode_edit</i>
             </md-button>
         </md-fab-trigger>
         <md-fab-actions>
             <div>
                 <md-button aria-label="group_add" class="md-fab md-raised md-mini"
-                           ng-click=showAdvanced($event)>
-                    <md-tooltip md-direction="top" md-visible="tooltipVisible"
+                           ng-click='shell.showDialog($event,"newGroup")'>
+                    <md-tooltip md-direction="left" md-visible="tooltipVisible"
                                 md-autohide="false">
                         New Group
                     </md-tooltip>
@@ -132,8 +128,8 @@
             </div>
             <div>
                 <md-button aria-label="logout" class="md-fab md-raised md-mini"
-                           ng-click="">
-                    <md-tooltip md-direction="top" md-visible="tooltipVisible"
+                           ng-click='shell.showDialog($event,"newQuestion")'>
+                    <md-tooltip md-direction="left" md-visible="tooltipVisible"
                                 md-autohide="false">
                         New Question
                     </md-tooltip>
@@ -144,32 +140,12 @@
     </md-fab-speed-dial>
     <md-toolbar ng-show="showSearch" class="animate-show md-hue-1 md-whiteframe-z1">
         <div class="md-toolbar-tools">
-            <md-button class="md-icon-button" ng-click="toggleSearch()" aria-label="Menu">
-                <md-icon md-svg-icon="navigation:ic_arrow_back_24px" aria-label="Back"></md-icon>
-            </md-button>
+            <md-icon md-svg-icon="navigation:ic_arrow_back_24px" aria-label="Back"></md-icon>
             <h3 role="button" ng-click="toggleSearch()">
                 Back
             </h3>
             <span flex="5"></span>
           <span ng-controller="searchController as ctrl" flex>
-            <md-autocomplete md-theme="pink"
-                             md-search-text-change="ctrl.querySearch(ctrl.searchText)"
-                             md-input-name="autocompleteField"
-                             md-no-cache="ctrl.noCache"
-                             md-selected-item="ctrl.selectedItem"
-                             md-search-text="ctrl.searchText"
-                             md-items="item in ctrl.searchUsersResult"
-                             md-item-text="item.username"
-                             placeholder="Search">
-                <md-item-template>
-                    <span md-highlight-text="ctrl.searchText">{{item.username}}</span>
-                </md-item-template>
-                <div ng-messages="searchForm.autocompleteField.$error" ng-if="searchForm.autocompleteField.$touched">
-                    <div ng-message="required">You <b>must</b> have a favorite state.</div>
-                    <div ng-message="minlength">Your entry is not long enough.</div>
-                    <div ng-message="maxlength">Your entry is too long.</div>
-                </div>
-            </md-autocomplete>
           </span>
         </div>
     </md-toolbar>

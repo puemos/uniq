@@ -1,8 +1,10 @@
 package com.puemos.uniq.servlet.user;
 
+import com.puemos.uniq.dto.Question;
 import com.puemos.uniq.dto.User;
 import com.puemos.uniq.exceptions.InputException;
 import com.puemos.uniq.exceptions.NotFoundException;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -39,6 +41,9 @@ public interface IUserController {
 
     @RequestMapping(value = "/user", method = RequestMethod.POST)
     ResponseEntity<String> createUser(@RequestBody User user) throws IOException, InputException;
+
+    @RequestMapping(value = "/user/questions", method = RequestMethod.POST)
+    ResponseEntity<Page<Question>> getUserQuestions(@RequestBody Map<String, Integer> requestData, Principal principal) throws NotFoundException;
 
     @ExceptionHandler(InputException.class)
     @ResponseStatus(value = HttpStatus.CONFLICT)

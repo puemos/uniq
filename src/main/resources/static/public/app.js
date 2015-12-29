@@ -2,17 +2,17 @@ define(function (require) {
     var angular = require("angular");
     require("jquery");
     require("ngUiRouter");
-    require("ngToast");
     require("ngLocalStorage");
     require("ngSanitize");
     require("ngMessages");
     require("ngAnimate");
+    require("ngAria");
     require("ngMaterial");
     require("welcome");
     angular.module("app", [
         'ui.router',
-        'ngToast',
         'ngAnimate',
+        'ngAria',
         'ngMessages',
         'LocalStorageModule',
         'ngSanitize',

@@ -13,10 +13,7 @@ import org.springframework.security.web.bind.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 
 /**
@@ -71,9 +68,13 @@ public class GroupService {
             throw new NotFoundException("no_such_group");
         }
         if (group.getAdmins().containsKey(adminId)) {
-            throw new InputException("user_already_in_group");
+            throw new InputException("user_already_group_admin");
         }
-        group.addUser(adminId, adminUsername);
+        if (!group.getUsers().containsKey(adminId)) {
+            group.addUser(adminId, adminUsername);
+        }
+        group.addAdmin(adminId, adminUsername);
+
         groupRepository.save(group);
     }
 
@@ -94,9 +95,9 @@ public class GroupService {
     }
 
     /**
-     * add admin to the group
+     * get the group questions
      *
-     * @param groupId - the currently group
+     * @param groupId     - the currently group
      * @param pageRequest
      */
     @Transactional
@@ -105,8 +106,26 @@ public class GroupService {
         if (group == null) {
             throw new NotFoundException("no_such_group");
         }
-        return questionService.findQuestionById(group.getQuestions(),pageRequest);
+        return questionService.findQuestionById(group.getQuestions(), pageRequest);
     }
+
+    /**
+     * delete group
+     *
+     * @param groupId - the currently group
+     */
+    @Transactional
+    public void deleteGroup(String groupId, String userId) throws NotFoundException, InputException {
+        Group group = groupRepository.findOne(groupId);
+        isUserAdmin(group, userId);
+        if (group == null) {
+            throw new NotFoundException("no_such_group");
+        }
+        questionService.deleteQuestionsFromGroup(group.getQuestions());
+        userService.deleteGroupFromUsers(group.getUsers().keySet(), groupId);
+        groupRepository.delete(groupId);
+    }
+
 
     /**
      * creates a new group in the database
@@ -114,24 +133,31 @@ public class GroupService {
      * @param title    - the title of the new group
      * @param userId   - the Id of the user how created the group
      * @param username - the username of the user how created the group
+     * @param users    - users to be added
      */
     @Transactional
-    public void createGroup(String title, String userId, String username) throws NotFoundException {
-
-
+    public void createGroup(String title, String userId, String username, Map<String, String> users) throws NotFoundException {
         if (!isGroupTitleAvailable(username)) {
             throw new IllegalArgumentException("group_title_unavailable");
         }
+        Map<String, String> usersMap = new HashMap<>();
+        if (!users.isEmpty()) {
+            usersMap.putAll(users);
 
+        }
         Group group = new Group(title,
                 new ArrayList<>(),
-                new HashMap<>(),
+                usersMap,
                 new HashMap<>(),
                 new Date());
         group.addAdmin(userId, username);
         group.addUser(userId, username);
         groupRepository.save(group);
-        userService.addGroupToUser(userId, group.getId(), group.getTitle());
+
+        for (String id : group.getUsers().keySet()) {
+            userService.addGroupToUser(id, group.getId(), group.getTitle());
+        }
+
     }
 
     @Transactional(readOnly = true)
@@ -155,6 +181,21 @@ public class GroupService {
     private boolean isGroupTitleAvailable(String groupTitle) {
         Group group = groupRepository.findByTitle(groupTitle);
         return (group == null);
+    }
+
+    private boolean isUserAdmin(Group group, String userId) throws InputException {
+        if (!group.getAdmins().containsKey(userId)) {
+            throw new InputException("not_admin");
+        } else {
+            return true;
+        }
+    }
+    private boolean isUser(Group group, String userId) throws InputException {
+        if (!group.getUsers().containsKey(userId)) {
+            throw new InputException("not_user");
+        } else {
+            return true;
+        }
     }
 
 
