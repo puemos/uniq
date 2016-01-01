@@ -1,6 +1,5 @@
-define(['ngLocalStorage'], function () {
+define([], function () {
     'use strict';
-    require("ngLocalStorage");
     function UserService($http, $q, $rootScope) {
         var loggedIn = false,
             currentUser = null;
@@ -84,7 +83,7 @@ define(['ngLocalStorage'], function () {
             }
             $http(
                 {
-                    method: 'GET',
+                    method: 'POST',
                     url: '/logout',
                 })
                 .success(function () {

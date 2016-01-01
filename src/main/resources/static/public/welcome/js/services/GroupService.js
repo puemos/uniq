@@ -1,7 +1,5 @@
-define(['ngLocalStorage'], function () {
+define(["angular"], function (angular) {
     'use strict';
-    require("ngLocalStorage");
-    var angular = require("angular");
 
     function GroupService($http, $q, $rootScope) {
         var that = this;

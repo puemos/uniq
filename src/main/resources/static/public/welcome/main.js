@@ -27,9 +27,10 @@ define(function (require) {
         equalsDirective = require("welcome/js/directives/equals"),
     /*Configs*/
         routerConfig = require("welcome/js/config/router"),
+        CSRFTokenConfig = require("welcome/js/config/CSRFToken"),
         iconsConfig = require("welcome/js/config/icons"),
-        themeConfig = require("welcome/js/config/theme"),
-        localStorageConfig = require("welcome/js/config/localStorage");
+        textAngularConfig = require("welcome/js/config/textAngular"),
+        themeConfig = require("welcome/js/config/theme");
     ngModule = angular.module(name, [])
         .controller("homeController", homeController)
         .controller("dashboardController", dashboardController)
@@ -51,8 +52,9 @@ define(function (require) {
         .directive('goClick', goClickDirective)
         .directive('equals', equalsDirective)
         .config(routerConfig)
-        .config(localStorageConfig)
         .config(iconsConfig)
+        .config(CSRFTokenConfig)
+        .config(textAngularConfig)
         .config(themeConfig);
     return ngModule;
 })

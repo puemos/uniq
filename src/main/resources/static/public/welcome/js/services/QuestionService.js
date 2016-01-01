@@ -1,6 +1,5 @@
-define(['ngLocalStorage'], function () {
+define([], function () {
     'use strict';
-    require("ngLocalStorage");
     function QuestionService($http, $q, $rootScope) {
         var that = this;
         var prepareCreateQuestionData = function (details) {

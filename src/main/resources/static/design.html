@@ -194,13 +194,15 @@
         </div>
     </md-content>
 </div>-->
-<h1>Q</h1>
 </body>
 <!-- Angular Material Dependencies -->
 <script src="bower_components/angular/angular.js"></script>
 <script src="bower_components/angular-animate/angular-animate.js"></script>
 <script src="bower_components/angular-aria/angular-aria.js"></script>
 <script src="bower_components/angular-messages/angular-messages.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script src="bower_components/wysihtml/dist/wysihtml-toolbar.min.js"></script>
+<script src="bower_components/wysihtml/parser_rules/advanced_and_extended.js"></script>
 <!-- Angular Material -->
 <script src="bower_components/angular-material/angular-material.min.js"></script>
 <script language="JavaScript">
@@ -246,6 +248,100 @@
                 link: 'showListBottomSheet($event)',
                 title: 'Settings',
                 icon: 'action:ic_settings_24px'
+            }
+        ];
+        $scope.toolbarItems =[
+            {
+                cmd:"bold",
+                icon:"format_bold",
+                color:"black",
+                value:""
+
+            },
+            {
+                cmd:"italic",
+                icon:"format_italic",
+                color:"black",
+                value:""
+
+            },
+            {
+                cmd:"superscript",
+                icon:"vertical_align_top",
+                color:"black",
+                value:""
+
+            },
+            {
+                cmd:"subscript",
+                icon:"vertical_align_bottom",
+                color:"black",
+                value:""
+
+            },
+            {
+                cmd:"createLink",
+                icon:"insert_link",
+                color:"black",
+                value:""
+
+            },
+            {
+                cmd:"insertImage",
+                icon:"insert_photo",
+                color:"black",
+                value:""
+
+            },
+            {
+                cmd:"sizes",
+                icon:"format_size",
+                color:"black",
+                value:""
+
+            },
+            {
+                cmd:"insertUnorderedList",
+                icon:"format_list_bulleted",
+                color:"black",
+                value:""
+
+            },
+            {
+                cmd:"insertOrderedList",
+                icon:"format_list_numbered",
+                color:"black",
+                value:""
+
+            },
+            {
+                cmd:"foreColor",
+                icon:"format_color_fill",
+                color:"red",
+                value:"red",
+
+            },
+            {
+                cmd:"foreColor",
+                icon:"format_color_fill",
+                color:"green",
+                value:"green"
+            },
+            {
+                cmd:"foreColor",
+                icon:"format_color_fill",
+                color:"blue",
+                value:"blue"
+            },
+            {
+                cmd:"undo",
+                icon:"undo",
+                color:"black"
+            },
+            {
+                cmd:"redo",
+                icon:"redo",
+                color:"black"
             }
         ];
         // Mock activity
@@ -445,7 +541,14 @@
                 .defaultIconSet('https://raw.githubusercontent.com/google/material-design-icons/master/sprites/svg-sprite/svg-sprite-action.svg', 24);
     });
 </script>
+<script>
+    $("#con").click(function(){
+        editors[0].fire("showSource");
+    });
+
+</script>
 </body>
 </html>
+
 
 

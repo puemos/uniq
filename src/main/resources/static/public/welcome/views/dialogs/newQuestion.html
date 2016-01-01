@@ -23,13 +23,8 @@
                 </md-input-container>
                 <md-input-container>
                     <label>Description:</label>
-                    <textarea ng-model="question.description" columns="1" ng-minlength="6" md-maxlength="150" rows="10"></textarea>
-                    <div ng-messages="newQuestionForm.description.$error"
-                         ng-if="newQuestionForm.description.$touched">
-                        <div ng-message="required">Description is required.</div>
-                        <div ng-message="minlength">must have minimum 6 characters</div>
-                        <div ng-message="maxlength">maximum 150 characters</div>
-                    </div>
+                    <text-angular ng-model="question.description" ></text-angular>
+
                 </md-input-container>
                 <md-input-container class="md-block" flex-gt-sm>
                     <label>Group</label>
