@@ -4,7 +4,7 @@
     dir: "dist",
     //Comment out the optimize line if you want
     //the code minified by UglifyJS
-    //optimize: "none",
+    optimize: "uglify",
 
     mainConfigFile: 'public/main.js',
 
