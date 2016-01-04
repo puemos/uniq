@@ -1,0 +1,64 @@
+<md-dialog aria-label="" ng-cloak class="fullscreen-dialog" flex>
+    <md-toolbar>
+        <md-progress-linear style="position: absolute;" ng-show="loading" class="md-warn md-hue-2" md-mode="query"
+                            md-diameter="20"></md-progress-linear>
+        <div class="md-toolbar-tools">
+            <md-icon class="material-icons">
+                <md-tooltip md-direction="left">
+                    Title
+                </md-tooltip>
+                label_outline
+            </md-icon>
+            &nbsp;{{question.title}}
+            <span flex></span>
+            <md-icon class="material-icons">
+                <md-tooltip md-direction="left">
+                    User
+                </md-tooltip>
+                account_circle
+            </md-icon>
+            &nbsp;{{question.username}}
+            <span flex></span>
+            <md-icon class="material-icons">
+                <md-tooltip md-direction="left">
+                    Rate
+                </md-tooltip>
+                swap_vert
+            </md-icon>
+            &nbsp;{{question.rate}}
+
+            <span flex></span>
+            <md-button class="md-icon-button" ng-click="cancel()">
+                <i class="material-icons">close</i>
+            </md-button>
+        </div>
+    </md-toolbar>
+    <md-dialog-content>
+        <div class="md-dialog-content">
+            <p>{{question.description}}</p>
+            </div>
+    </md-dialog-content>
+    <!--
+    <form name="newGroupForm" data-ng-submit="createAnswer(answer)">
+        <md-dialog-content>
+            <div class="md-dialog-content">
+                <md-input-container>
+                    <label>Title:</label>
+                    <input name="title" ng-model="group.title" required>
+                    <div ng-messages="newGroupForm.title.$error" ng-if="newGroupForm.title.$touched">
+                        <div ng-message="required">Title is required.</div>
+                    </div>
+                </md-input-container>
+            </div>
+        </md-dialog-content>
+        <md-dialog-actions style="order: 1;" md-theme="pink" layout="row" layout-align="center center">
+            <md-button class="md-primary" ng-disabled="newGroupForm.$invalid" type="submit"
+                       ng-class="{'md-raised': (newGroupForm.$dirty && newGroupForm.$valid) }"
+                       aria-label="Save Project">Send
+            </md-button>
+            <md-button class="md-raised" ng-click="reset()">Reset</md-button>
+        </md-dialog-actions>
+    </form>
+-->
+</md-dialog>
+

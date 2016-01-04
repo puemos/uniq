@@ -17,4 +17,7 @@ hs_err_pid*
 # Idea
 /.idea
 *.iml
+
+#nodejs
+/src/main/client/node_modules
 # Created by .ignore support plugin (hsz.mobi)

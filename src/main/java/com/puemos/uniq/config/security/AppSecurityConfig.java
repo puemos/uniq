@@ -2,6 +2,7 @@ package com.puemos.uniq.config.security;
 
 
 import com.allanditzel.springframework.security.web.csrf.CsrfTokenResponseHeaderBindingFilter;
+import com.puemos.uniq.UniQApplication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -15,6 +16,7 @@ import org.springframework.security.web.authentication.SavedRequestAwareAuthenti
 import org.springframework.security.web.csrf.CsrfFilter;
 import org.springframework.security.web.csrf.CsrfTokenRepository;
 import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 
 /**
@@ -27,6 +29,17 @@ import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
+
+
+    private static final String INDEX_PATH = UniQApplication.INDEX_PATH;
+    private static final String DIST_PATH = UniQApplication.DIST_PATH;
+    private static final String LOGOUT_PATH = UniQApplication.LOGOUT_PATH;
+    private static final String AUTHENTICATE_PATH = UniQApplication.AUTHENTICATE_PATH;
+    private static final String HOME_PATH = UniQApplication.HOME_PATH;
+    private static final String CREATE_USER_PATH = UniQApplication.CREATE_USER_PATH;
+    private static final String SEARCH_USER_PATH = UniQApplication.SEARCH_USER_PATH;
+    private static final String USERNAME_PARAM = UniQApplication.USERNAME_PARAM;
+    private static final String PASSWORD_PARAM = UniQApplication.PASSWORD_PARAM;
 
     @Autowired
     SecUserDetailsService userDetailsService;
@@ -45,28 +58,26 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
 
         http
                 .authorizeRequests()
-                .antMatchers("/public/**").permitAll()
-                .antMatchers("/bower_components/**").permitAll()
-                .antMatchers(HttpMethod.POST, "/user").permitAll()
-                .antMatchers(HttpMethod.POST, "/userQuery").permitAll()
+                .antMatchers(DIST_PATH).permitAll()
+                .antMatchers(HttpMethod.POST, CREATE_USER_PATH).permitAll()
+                .antMatchers(HttpMethod.POST, SEARCH_USER_PATH).permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .exceptionHandling().accessDeniedHandler(new AccessDeniedHandlerImp())
                 .and()
                 .formLogin()
-                .defaultSuccessUrl("/home")
-                .loginProcessingUrl("/authenticate")
-                .usernameParameter("username")
-                .passwordParameter("password")
+                .defaultSuccessUrl(HOME_PATH)
+                .loginProcessingUrl(AUTHENTICATE_PATH)
+                .usernameParameter(USERNAME_PARAM)
+                .passwordParameter(PASSWORD_PARAM)
                 .successHandler(new AjaxAuthenticationSuccessHandler(new SavedRequestAwareAuthenticationSuccessHandler()))
                 .failureHandler(new AjaxAuthenticationFailureHandler())
-                .loginPage("/public/app.html")
+                .loginPage(INDEX_PATH)
                 .and()
                 .httpBasic()
                 .and()
                 .logout()
-                .logoutUrl("/logout")
-                .logoutSuccessUrl("/public/app.html")
+                .logoutRequestMatcher(new AntPathRequestMatcher(LOGOUT_PATH))
                 .and()
                 .addFilterAfter(new CsrfHeaderFilter(), CsrfFilter.class)
                 .csrf().csrfTokenRepository(csrfTokenRepository());

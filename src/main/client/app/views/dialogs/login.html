@@ -1,0 +1,41 @@
+<md-dialog aria-label="" ng-cloak class="fullscreen-dialog" flex="30">
+    <md-toolbar>
+        <md-progress-linear style="position: absolute;" ng-show="loading" class="md-warn md-hue-2" md-mode="query"
+                            md-diameter="20"></md-progress-linear>
+        <div class="md-toolbar-tools">
+            <span style="font-weight: 100">LOG</span>IN
+            <span flex></span>
+            <md-button class="md-icon-button" ng-click="cancel()">
+                <i class="material-icons">close</i>
+            </md-button>
+        </div>
+    </md-toolbar>
+    <form name="loginForm" data-ng-submit="login()" layout="column">
+        <md-dialog-content>
+            <div class="md-dialog-content">
+                <md-input-container>
+                    <label>Username:</label>
+                    <input name="username" ng-model="credentials.username" required>
+                    <div ng-messages="loginForm.username.$error" ng-if="loginForm.username.$touched">
+                        <div ng-message="required">Username is required.</div>
+                    </div>
+                </md-input-container>
+                <md-input-container>
+                    <label>Password:</label>
+                    <input name="password" type="password" ng-model="credentials.password" required>
+                    <div ng-messages="loginForm.password.$error" ng-if="loginForm.password.$touched">
+                        <div ng-message="required">Password is required.</div>
+                    </div>
+                </md-input-container>
+            </div>
+        </md-dialog-content>
+        <md-dialog-actions style="order: 1;" md-theme="pink" layout="row" layout-align="center center">
+            <md-button class="md-primary" ng-disabled="loginForm.$invalid" type="submit"
+                       ng-class="{'md-raised': (loginForm.$dirty && loginForm.$valid) }"
+                       aria-label="Save Project">Send
+            </md-button>
+            <md-button class="md-raised" ng-click="reset()">Reset</md-button>
+        </md-dialog-actions>
+    </form>
+</md-dialog>
+
