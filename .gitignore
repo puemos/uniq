@@ -20,4 +20,8 @@ hs_err_pid*
 
 #nodejs
 /src/main/client/node_modules
+
+#
+dev-*
+
 # Created by .ignore support plugin (hsz.mobi)
