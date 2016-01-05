@@ -1,0 +1,40 @@
+<div layout="column" layout-align="start center" flex>
+    <span class="md-title md-title-big">
+        <span style="font-weight: 100">{{currentGroup.title || "No Group"}}</span>
+    </span>
+    <div class='md-padding' layout-fill ng-cloak>
+        <md-card layout="row" class="md-whiteframe-6dp" flex="80" flex-offset="10">
+            <md-list flex>
+                <md-list-item ng-show="vm.emptyQuestions" class="md-1-line">
+                    No Questions
+                </md-list-item>
+                <div ng-repeat="question in currentGroup.questions" ng-cloak>
+                    <md-list-item class="md-1-line" ng-click=shell.showDialog($event,"question",question)>
+                        <md-icon class="material-icons">
+                            <md-tooltip md-direction="left">
+                                Rate
+                            </md-tooltip>
+                            swap_vert
+                        </md-icon>
+                        <span style="text-align: right;" flex="6">{{question.rate}}</span>
+
+                        <md-icon flex-offset="5" class="material-icons">
+                            <md-tooltip md-direction="left">
+                                Title
+                            </md-tooltip>
+                            label_outline
+                        </md-icon>
+                        <p flex-offset="5">&nbsp; {{question.title}}</p>
+                        <md-button aria-label="view" ng-click="deleteQuestion(question.id)">
+                            <md-tooltip md-direction="left">
+                                Delete
+                            </md-tooltip>
+                            <md-icon class="material-icons">clear</md-icon>
+                        </md-button>
+                    </md-list-item>
+                    <md-divider ng-if="!$last"></md-divider>
+                </div>
+            </md-list>
+        </md-card>
+    </div>
+</div>
