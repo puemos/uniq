@@ -1,5 +1,5 @@
 {
-  "name": "Uniq Share Questions",
+  "name": "Uniq",
   "version": "0.0.1",
   "devDependencies": {
     "browserify": "^3.46.1",

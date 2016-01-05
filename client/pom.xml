@@ -57,6 +57,16 @@
                     </execution>
 
                     <execution>
+                        <id>npm gulp install</id>
+                        <goals>
+                            <goal>npm</goal>
+                        </goals>
+                        <configuration>
+                            <arguments>--global gulp</arguments>
+                        </configuration>
+                    </execution>
+
+                    <execution>
                         <id>gulp clean</id>
                         <goals>
                             <goal>gulp</goal>
