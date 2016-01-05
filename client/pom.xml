@@ -62,7 +62,7 @@
                             <goal>npm</goal>
                         </goals>
                         <configuration>
-                            <arguments>--global gulp</arguments>
+                            <arguments>install --global gulp</arguments>
                         </configuration>
                     </execution>
 
