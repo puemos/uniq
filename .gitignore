@@ -19,7 +19,6 @@ hs_err_pid*
 *.iml
 
 /server/target
-/client/target
 
 /client/etc
 /client/node

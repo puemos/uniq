@@ -102,7 +102,9 @@ public class QuestionService {
         Question question = new Question(title, userId, username, description, groupId,
                 new HashMap<>(), INIT_RATE, new ArrayList<>(), new Date(), new Date());
         questionRepository.save(question);
-        groupService.addQuestionToGroup(groupId, question);
+        String questionId = question.getId();
+        userService.addQuestionToUser(userId, questionId);
+        groupService.addQuestionToGroup(groupId, questionId);
 
     }
 

@@ -5,7 +5,7 @@
     "browserify": "^3.46.1",
     "connect-livereload": "^0.4.1",
     "express": "^4.1.2",
-    "gulp": "^3.6.2",
+    "gulp": "^3.9.0",
     "gulp-autoprefixer": "0.0.7",
     "gulp-browserify": "^0.5.1",
     "gulp-clean": "^0.3.1",

@@ -65,6 +65,9 @@ gulp.task('watch', function () {
     gulp.watch(['app/scripts/*.js', 'app/scripts/**/*.js'], [
         'browserify'
     ]);
+    gulp.watch(['app/css/*.css'], [
+        'minify-css'
+    ]);
     gulp.watch(['app/index.html', 'app/views/**/*.html'], [
         'views'
     ]);

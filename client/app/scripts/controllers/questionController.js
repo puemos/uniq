@@ -1,14 +1,17 @@
 (function () {
     'use strict';
-    var QuestionController = function ($scope, $mdToast, ResourceService, ToastService, $mdDialog, QuestionService, data) {
-        $scope.loading = false;
-        $scope.question = data;
-        $scope.hide = function () {
-            $mdDialog.hide();
-        };
-        $scope.cancel = function () {
-            $mdDialog.cancel();
-        };
+    var QuestionController = function ($scope, $rootScope, $stateParams,$mdToast, ResourceService, ToastService, QuestionService) {
+        function backToDashboard() {
+            $mdToast.show(ToastService.createSimpleToast(ResourceService.getErrorMsg('empty_question')));
+            $location.path('/dashboard');
+        }
+
+        if ($stateParams.question === null || $stateParams.question === undefined) {
+            backToDashboard();
+        }else{
+            $scope.question = $stateParams.question;
+        }
+
         $scope.reset = function () {
             $scope.newQuestionForm.$setUntouched();
             $scope.question = {};
@@ -30,6 +33,6 @@
                     });
         };
     };
-    QuestionController.$inject = ['$scope', '$mdToast', 'ResourceService', 'ToastService', '$mdDialog', 'QuestionService', 'data'];
+    QuestionController.$inject = ['$scope', '$rootScope', '$stateParams','$mdToast', 'ResourceService', 'ToastService', 'QuestionService'];
     module.exports = QuestionController;
 })();

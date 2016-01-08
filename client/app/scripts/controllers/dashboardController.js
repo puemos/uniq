@@ -3,11 +3,13 @@
     var dashboardController = function ($scope, $location, UserService, GroupService, ResourceService, ToastService, $rootScope, $mdToast) {
         $scope.vm = {
             errorMessages: [],
-            emptyGroups: true
+            emptyGroups: true,
+            groups_loading: true,
+            questions_loading: true
         };
         $rootScope.$broadcast('loading:start', true);
         $scope.gotoGroup = function (groupId) {
-            $location.path('/groupinfo/' + groupId);
+            $location.path('/g/' + groupId);
         };
         $scope.deleteGroup = function (groupId) {
             $rootScope.$broadcast('loading:start', true);
@@ -34,9 +36,15 @@
                     })
                 .finally(
                     function () {
+                        $scope.vm.groups_loading = false;
                         $rootScope.$broadcast('loading:stop', true);
                     });
-            UserService.getUserQuestions(0, 10);
+            UserService.getUserQuestions(0, 10).then(
+                function (page) {
+                    $scope.currentUser.questions = page.content;
+                    $scope.vm.questions_loading = false;
+                    $rootScope.$broadcast('loading:stop', true);
+                });
         };
         updateUserInfo();
         $scope.$on('group:change', function () {
@@ -46,7 +54,7 @@
             updateUserInfo();
         });
     };
-
-    dashboardController.$inject = ['$scope', '$location', 'UserService', 'GroupService', 'ResourceService', 'ToastService', '$rootScope', '$mdToast'];
+    dashboardController.$inject = ['$scope', '$location', 'UserService', 'GroupService',
+        'ResourceService', 'ToastService', '$rootScope', '$mdToast'];
     module.exports = dashboardController;
 })();

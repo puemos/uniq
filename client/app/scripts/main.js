@@ -20,11 +20,12 @@
         searchController = require('./controllers/searchController'),
         dashboardController = require('./controllers/dashboardController'),
         groupController = require('./controllers/groupController'),
+        questionController = require('./controllers/questionController'),
+
     /*Dialogs*/
         newUserController = require('./controllers/dialogs/newUserController'),
         newGroupController = require('./controllers/dialogs/newGroupController'),
         newQuestionController = require('./controllers/dialogs/newQuestionController'),
-        questionController = require('./controllers/dialogs/questionController'),
     /*Services*/
         UserService = require('./services/UserService'),
         GroupService = require('./services/GroupService'),

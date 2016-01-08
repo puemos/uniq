@@ -6,17 +6,17 @@
         $scope.menu = [
             {
                 link: 'home',
-                title: 'Dashboard',
+                title: 'Home',
                 icon: 'action:ic_dashboard_24px' // we have to use Google's naming convention for the IDs of the SVGs in the spritesheet
             },
             {
                 link: 'dashboard',
-                title: 'Groups',
+                title: 'Dashboard',
                 icon: 'social:ic_group_24px'
             },
             {
-                link: 'home',
-                title: 'Messages',
+                link: 'about',
+                title: 'About Us',
                 icon: 'communication:ic_message_24px'
             }
         ];

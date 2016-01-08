@@ -1,28 +1,46 @@
-<div layout="column" layout-align="start center" flex>
+<div layout="column" layout-align="start center" flex ng-cloak>
     <span class="md-title md-title-big">
-        <span style="font-weight: 100">Groups</span>
+        <span style="font-weight: 100">Dashboard</span>
     </span>
     <div class='md-padding' layout-fill>
-        <md-card layout="row" class="md-whiteframe-6dp" flex="80" flex-offset="10">
-            <md-list flex>
+        <md-card layout="column" class="md-whiteframe-6dp" flex="80" flex-offset="10">
+            <md-toolbar>
+                <md-progress-linear style="position: absolute;" ng-show="vm.groups_loading" class="md-warn md-hue-2" md-mode="query"
+                                    md-diameter="20"></md-progress-linear>
+                <div class="md-toolbar-tools">
+                    Groups:
+                </div>
+            </md-toolbar>
+            <md-list flex ng-hide="vm.groups_loading">
                 <md-list-item ng-show="vm.emptyGroups" class="md-1-line">
                     No Groups
                 </md-list-item>
-                <div ng-repeat="(groupId, groupTitle) in currentUser.groups">
+                <div ng-repeat="(groupId, groupTitle) in currentUser.groups" ng-cloak>
                     <md-list-item class="md-1-line" ng-click="gotoGroup(groupId)">
-                        <md-button aria-label="view">
-                            <md-tooltip md-direction="left">
-                                View
-                            </md-tooltip>
-                            <md-icon class="material-icons">pageview</md-icon>
-                        </md-button>
                         <p flex-offset="5">{{groupTitle}}</p>
                         <md-button aria-label="view" ng-click="deleteGroup(groupId)">
                             <md-tooltip md-direction="left">
                                 Delete
                             </md-tooltip>
-                            <md-icon class="material-icons">clear</md-icon>
+                            <md-icon class="material-icons">delete</md-icon>
                         </md-button>
+                    </md-list-item>
+                    <md-divider ng-if="!$last"></md-divider>
+                </div>
+            </md-list>
+        </md-card>
+        <md-card layout="column" class="md-whiteframe-6dp" flex="80" flex-offset="10">
+            <md-toolbar>
+                <md-progress-linear style="position: absolute;" ng-show="vm.questions_loading" class="md-warn md-hue-2" md-mode="query"
+                                    md-diameter="20"></md-progress-linear>
+                <div class="md-toolbar-tools">
+                    Questions:
+                </div>
+            </md-toolbar>
+            <md-list flex ng-hide="vm.questions_loading">
+                <div ng-repeat="question in currentUser.questions" ng-cloak>
+                    <md-list-item class="md-1-line" ng-click="gotoQuestion(question)">
+                        <p flex-offset="5">{{question.title}}</p>
                     </md-list-item>
                     <md-divider ng-if="!$last"></md-divider>
                 </div>

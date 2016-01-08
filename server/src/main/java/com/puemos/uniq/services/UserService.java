@@ -4,8 +4,8 @@ import com.puemos.uniq.dao.UserRepository;
 import com.puemos.uniq.dto.Client;
 import com.puemos.uniq.dto.Question;
 import com.puemos.uniq.dto.User;
-import com.puemos.uniq.exceptions.NotFoundException;
 import com.puemos.uniq.exceptions.InputException;
+import com.puemos.uniq.exceptions.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -157,6 +157,22 @@ public class UserService {
             throw new NotFoundException("no_such_user");
         }
         return questionService.findQuestionById(user.getQuestions(), pageRequest);
+    }
+
+    /**
+     * add question to the User
+     *
+     * @param userId  - the currently group
+     * @param questionId - the question
+     */
+    @Transactional
+    public void addQuestionToUser(String userId, String questionId) throws NotFoundException {
+        User user = userRepository.findOne(userId);
+        if (user == null) {
+            throw new NotFoundException("no_such_user");
+        }
+        user.addQuestion(questionId);
+        userRepository.save(user);
     }
 
     /**

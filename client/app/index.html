@@ -9,153 +9,86 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
           rel="stylesheet">
 </head>
-<body layout="column" ng-controller="shellController as shell" ng-cloak>
-
-<md-sidenav layout="column" class="md-sidenav-left md-whiteframe-z2" md-component-id="left">
-    <md-toolbar class="md-hue-2 md-tall">
-        <div layout="row" layout-align="start center">
-            <md-icon class="md-avatar" md-svg-icon="avatars:svg-1"></md-icon>
-            <span flex></span>
-        </div>
+<body ng-controller="shellController as shell" layout="column" ng-cloak>
+<md-toolbar class="animate-show md-hue-1 md-whiteframe-z2">
+    <div class="md-toolbar-tools">
+        <md-button id="menuBtn" class="md-icon-button" ng-click="toggleSidenav('left')" aria-label="Menu">
+            <md-icon md-svg-icon="navigation:ic_menu_24px" aria-label="Menu"></md-icon>
+        </md-button>
+        <md-button class="menu-brand-btn menu-text-btn" ui-sref="home" hide show-gt-sm aria-label="Home">
+            Uni<span style="color: #ff7703">Q</span>
+        </md-button>
         <span flex></span>
-        <div class="md-body-2">{{shell.currentUser.firstname}} {{shell.currentUser.lastname}}</div>
-        <div class="md-body-1">{{shell.currentUser.enail}}</div>
-    </md-toolbar>
-    <md-list>
-        <md-list-item class="md-2-line" ng-repeat="item in menu" role="link" ng-click="goRoute(item.link)"
-                      md-ink-ripple>
-            <md-icon md-svg-icon="{{item.icon}}" aria-label="{{item.title}}"></md-icon>
-            <div class="md-list-item-text">
-                <span class="md-body-2">{{item.title}}</span>
-            </div>
-        </md-list-item>
-        <md-divider></md-divider>
-        <md-subheader class="md-no-sticky">Management</md-subheader>
-        <md-list-item class="md-2-line" ng-repeat="item in admin" role="link" md-ink-ripple>
-            <md-icon md-svg-icon="{{item.icon}}" aria-label="{{item.title}}"></md-icon>
-            <div class="md-list-item-text">
-                <span class="md-body-2">{{item.title}}</span>
-            </div>
-        </md-list-item>
-    </md-list>
-</md-sidenav>
-<div layout="column" class="relative" role="main" flex>
-    <md-toolbar class="animate-show md-hue-1 md-whiteframe-z1" ng-show="!showSearch" ng-cloak>
-        <md-progress-linear style="position: absolute;" ng-show="shell.loading" class="md-warn md-hue-2" md-mode="query"
-                            md-diameter="20"></md-progress-linear>
-        <div class="md-toolbar-tools">
-            <md-button ng-click="toggleSidenav('left')" aria-label="Menu">
-                <md-icon md-svg-icon="navigation:ic_menu_24px" aria-label="Menu"></md-icon>
-            </md-button>
-            <md-button ui-sref="home" class="menu-brand-btn menu-text-btn" hide show-gt-sm aria-label="Home">
-                Uni<span style="color: #ff7703">Q</span>
-            </md-button>
-            <md-button ui-sref="about" class="menu-text-btn" hide show-gt-sm aria-label="About">
-                About
-            </md-button>
-            <md-button ui-sref="dashboard" ng-show="vm.authenticate" class="menu-text-btn" hide show-gt-sm
-                       aria-label="Groups">
-                Groups
-            </md-button>
-            <span flex></span>
-            <md-button class="md-icon-button" aria-label="Search" ng-click="toggleSearch()">
-                <md-icon md-svg-icon="action:ic_search_24px" aria-label="Search"></md-icon>
-            </md-button>
-            <md-button class="md-icon-button" aria-label="Open Settings" ng-click="showListBottomSheet($event)">
-                <md-icon md-svg-icon="navigation:ic_more_vert_24px" aria-label="More"></md-icon>
-            </md-button>
-        </div>
-    </md-toolbar>
-    <md-fab-speed-dial md-direction="up" md-open="userMenu.isOpen"
-                       class="md-scale md-fab-bottom-right md-hover-full"
-                       ng-mouseenter="userMenu.isOpen=true" ng-mouseleave="userMenu.isOpen=false">
-        <md-fab-trigger>
-            <md-button aria-label="menu" class="md-fab md-warn">
-                <md-tooltip md-direction="left" md-visible="tooltipVisible">Menu</md-tooltip>
-                <i class="material-icons">account_circle</i>
-            </md-button>
-        </md-fab-trigger>
-        <md-fab-actions>
-            <div>
-                <md-button aria-label="login" class="md-fab md-raised md-mini"
-                           ng-click=shell.showDialog($event,"login")>
-                    <md-tooltip md-direction="left" md-visible="tooltipVisible"
-                                md-autohide="false">
-                        Login
-                    </md-tooltip>
-                    <i class="material-icons md-18" style="color: darkgreen">power_settings_new</i>
-                </md-button>
-            </div>
-            <div>
-                <md-button aria-label="logout" class="md-fab md-raised md-mini"
-                           ng-click=logout()>
-                    <md-tooltip md-direction="left" md-visible="tooltipVisible"
-                                md-autohide="false">
-                        Logout
-                    </md-tooltip>
-                    <i class="material-icons md-18" style="color: red">power_settings_new</i>
-                </md-button>
-            </div>
-            <div>
-                <md-button aria-label="user" class="md-fab md-raised md-mini"
-                           ng-click=goRoute(shell.currentUser.id)>
-                    <md-tooltip md-direction="left" md-visible="tooltipVisible"
-                                md-autohide="false">
-                        Logout
-                    </md-tooltip>
-                    <i class="material-icons md-18" style="color: black">fingerprint</i>
-                </md-button>
-            </div>
-        </md-fab-actions>
-    </md-fab-speed-dial>
-    <md-fab-speed-dial ng-show="vm.authenticate" style="right: 80px;" md-direction="up"
-                       class="md-scale md-fab-bottom-right md-hover-full">
-        <md-fab-trigger>
-            <md-button aria-label="menu" class="md-fab md-accent">
-                <i class="material-icons">mode_edit</i>
-            </md-button>
-        </md-fab-trigger>
-        <md-fab-actions>
-            <div>
-                <md-button aria-label="group_add" class="md-fab md-raised md-mini"
-                           ng-click='shell.showDialog($event,"newGroup")'>
-                    <md-tooltip md-direction="left" md-visible="tooltipVisible"
-                                md-autohide="false">
-                        New Group
-                    </md-tooltip>
-                    <i class="material-icons md-18">group_add</i>
-                </md-button>
-            </div>
-            <div>
-                <md-button aria-label="logout" class="md-fab md-raised md-mini"
-                           ng-click='shell.showDialog($event,"newQuestion")'>
-                    <md-tooltip md-direction="left" md-visible="tooltipVisible"
-                                md-autohide="false">
-                        New Question
-                    </md-tooltip>
-                    <i class="material-icons md-18">help</i>
-                </md-button>
-            </div>
-        </md-fab-actions>
-    </md-fab-speed-dial>
-    <md-toolbar ng-show="showSearch" class="animate-show md-hue-1 md-whiteframe-z1">
-        <div class="md-toolbar-tools">
-            <md-icon md-svg-icon="navigation:ic_arrow_back_24px" aria-label="Back"></md-icon>
-            <h3 role="button" ng-click="toggleSearch()">
-                Back
-            </h3>
-            <span flex="5"></span>
-          <span ng-controller="searchController as ctrl" flex>
+            <span ng-show="vm.authenticate" flex="50">
+
           </span>
+        <span flex></span>
+        <md-button class="menu-text-btn" ui-sref="about" hide show-gt-sm aria-label="About">
+            About
+        </md-button>
+        <md-button class="md-icon-button" aria-label="Open Settings" ng-click="showListBottomSheet($event)">
+            <md-icon class="md-avatar" md-svg-icon="avatars:svg-1"></md-icon>
+        </md-button>
+    </div>
+</md-toolbar>
+<md-content layout="row" flex class="shell" role="main">
+    <div ng-show="vm.authenticate" layout="column">
+        <md-sidenav flex class="md-sidenav-left md-whiteframe-z1" md-component-id="left"
+                    >
+            <md-list>
+                <md-list-item class="md-2-line" ng-repeat="item in menu" role="link" ng-click="goRoute(item.link)"
+                              md-ink-ripple>
+                    <md-icon md-svg-icon="{{item.icon}}" aria-label="{{item.title}}"></md-icon>
+                    <div class="md-list-item-text">
+                        <span class="md-body-2">{{item.title}}</span>
+                    </div>
+                </md-list-item>
+                <md-divider></md-divider>
+                <md-subheader class="md-no-sticky">Management</md-subheader>
+                <md-list-item class="md-2-line" ng-repeat="item in admin" role="link" md-ink-ripple>
+                    <md-icon md-svg-icon="{{item.icon}}" aria-label="{{item.title}}"></md-icon>
+                    <div class="md-list-item-text">
+                        <span class="md-body-2">{{item.title}}</span>
+                    </div>
+                </md-list-item>
+            </md-list>
+        </md-sidenav>
+    </div>
+    <div ui-view layout="column" flex ng-cloak style="overflow-y: scroll;"></div>
+</md-content>
+<md-fab-speed-dial ng-show="vm.authenticate" style="" md-direction="up"
+                   class="md-scale md-fab-bottom-right md-hover-full">
+    <md-fab-trigger>
+        <md-button aria-label="menu" class="md-fab md-accent">
+            <i class="material-icons">mode_edit</i>
+        </md-button>
+    </md-fab-trigger>
+    <md-fab-actions>
+        <div>
+            <md-button aria-label="group_add" class="md-fab md-raised md-mini"
+                       ng-click='shell.showDialog($event,"newGroup")'>
+                <md-tooltip md-direction="left" md-visible="tooltipVisible"
+                            md-autohide="false">
+                    New Group
+                </md-tooltip>
+                <i class="material-icons md-18">group_add</i>
+            </md-button>
         </div>
-    </md-toolbar>
-    <md-content layout="row" class="shell" flex ng-cloak>
-        <div ng-hide="shell.loading" ui-view layout="row" flex layout-padding ng-cloak></div>
-    </md-content>
-</div>
+        <div>
+            <md-button aria-label="logout" class="md-fab md-raised md-mini"
+                       ng-click='shell.showDialog($event,"newQuestion")'>
+                <md-tooltip md-direction="left" md-visible="tooltipVisible"
+                            md-autohide="false">
+                    New Question
+                </md-tooltip>
+                <i class="material-icons md-18">help</i>
+            </md-button>
+        </div>
+    </md-fab-actions>
+</md-fab-speed-dial>
 <script type="text/javascript" src="/public/dist/js/bundle.js"></script>
 <script>
-    angular.element(document).ready(function() {
+    angular.element(document).ready(function () {
         angular.bootstrap(document, ['app']);
     });
 </script>

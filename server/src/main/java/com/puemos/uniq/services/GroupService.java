@@ -79,18 +79,18 @@ public class GroupService {
     }
 
     /**
-     * add admin to the group
+     * add question to the group
      *
      * @param groupId  - the currently group
-     * @param question - the question
+     * @param questionId - the question
      */
     @Transactional
-    public void addQuestionToGroup(String groupId, Question question) throws NotFoundException {
+    public void addQuestionToGroup(String groupId, String questionId) throws NotFoundException {
         Group group = groupRepository.findOne(groupId);
         if (group == null) {
             throw new NotFoundException("no_such_group");
         }
-        group.addQuestion(question.getId());
+        group.addQuestion(questionId);
         groupRepository.save(group);
     }
 

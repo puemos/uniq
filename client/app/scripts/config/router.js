@@ -13,9 +13,15 @@
                 templateUrl: '/public/dist/views/dashboard.html'
             })
             .state('group', {
-                url: '/groupinfo/{groupId}',
+                url: '/g/{groupId}',
                 controller: 'groupController',
                 templateUrl: '/public/dist/views/group.html'
+            })
+            .state('question', {
+                url: '/q',
+                controller: 'questionController',
+                templateUrl: '/public/dist/views/question.html',
+                params: {question: null}
             })
             .state('about', {
                 url: '/about',

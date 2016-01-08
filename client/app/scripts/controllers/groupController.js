@@ -1,7 +1,7 @@
 (function () {
     'use strict';
     var groupController = function ($scope, $location, $stateParams, $mdToast,
-                                        ResourceService, ToastService, GroupService, QuestionService, $rootScope) {
+                                    ResourceService, ToastService, GroupService, QuestionService, $rootScope, $state) {
         $rootScope.$broadcast('loading:start', true);
         function backToDashboard() {
             $mdToast.show(ToastService.createSimpleToast(ResourceService.getErrorMsg('empty_group')));
@@ -13,7 +13,11 @@
         }
         $scope.vm = {
             errorMessages: [],
-            emptyQuestions: true
+            emptyQuestions: true,
+            questions_loading: true
+        };
+        $scope.gotoQuestion = function (question) {
+            $state.go('question', {question: question});
         };
         var updateGroupInfo = function () {
             GroupService.getGroupDetails($stateParams.groupId)
@@ -34,6 +38,7 @@
             GroupService.getGroupQuestions(groupId, page, size).then(
                 function (page) {
                     $scope.currentGroup.questions = page.content;
+                    $scope.vm.questions_loading = false;
                     $rootScope.$broadcast('loading:stop', true);
                 });
         };
@@ -71,6 +76,6 @@
     };
     groupController.$inject = ['$scope', '$location', '$stateParams',
         '$mdToast', 'ResourceService', 'ToastService', 'GroupService',
-        'QuestionService', '$rootScope'];
+        'QuestionService', '$rootScope', '$state'];
     module.exports = groupController;
 })();

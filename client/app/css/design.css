@@ -19,8 +19,24 @@ body {
 
 }
 
+.md-sidenav-left .md-button:hover {
+    color: black;
+}
+
 md-card {
     color: #000000;
+}
+
+/*--------------SideNav--------------*/
+md-sidenav {
+    background-color: rgb(51, 52, 113);
+    min-width: 200px !important;
+    max-width: 200px !important;
+}
+
+md-sidenav .md-subheader{
+    background-color: rgb(51, 52, 113);
+    color: white;
 }
 
 md-sidenav md-list-item.md-2-line .md-list-item-text {
@@ -38,10 +54,8 @@ md-sidenav md-icon {
     position: relative;
 }
 
-md-sidenav .md-avatar {
-    height: 64px;
-    width: 64px;
-}
+
+/*--------------SideNav--------------*/
 
 /* More closely matches https://www.google.com/design/spec/components/lists.html#lists-specs */
 md-list-item.md-3-line md-divider[md-inset] {
@@ -111,6 +125,7 @@ md-list-item .md-button {
 
 .md-title-big {
     font-size: 60px !important;
+    text-align: center!important;
 }
 
 @media screen and (max-width: 760px) {
@@ -137,5 +152,17 @@ md-contact-chips.autocomplete input {
     overflow: auto;
     font-family: inherit;
     font-size: 100%;
-    margin:20px 0;
+    margin: 20px 0;
 }
+
+
+#menuBtn:not([disabled]).md-focused {
+    background-color: transparent!important;
+}
+
+.big-icon{
+    width: 50px !important;
+    height: 50px !important;
+
+}
+
