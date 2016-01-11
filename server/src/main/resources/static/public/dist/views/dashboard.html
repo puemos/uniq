@@ -2,8 +2,8 @@
     <span class="md-title md-title-big">
         <span style="font-weight: 100">Dashboard</span>
     </span>
-    <div class='md-padding' layout-fill>
-        <md-card layout="column" class="md-whiteframe-6dp" flex="80" flex-offset="10">
+    <div class='md-padding' layout-gt-md="row" layout="column" flex layout-align-gt-md="center start" layout-fill>
+        <md-card class="md-whiteframe-6dp" flex-gt-md="30">
             <md-toolbar>
                 <md-progress-linear style="position: absolute;" ng-show="vm.groups_loading" class="md-warn md-hue-2" md-mode="query"
                                     md-diameter="20"></md-progress-linear>
@@ -29,13 +29,29 @@
                 </div>
             </md-list>
         </md-card>
-        <md-card layout="column" class="md-whiteframe-6dp" flex="80" flex-offset="10">
+        <md-card class="md-whiteframe-6dp" flex-gt-md="30">
             <md-toolbar>
                 <md-progress-linear style="position: absolute;" ng-show="vm.questions_loading" class="md-warn md-hue-2" md-mode="query"
                                     md-diameter="20"></md-progress-linear>
-                <div class="md-toolbar-tools">
-                    Questions:
+                <div class="md-toolbar-tools" md-theme="pink">
+                    <span>Questions:</span>
+                    <div class="md-toolbar-tools" ng-hide="vm.questions_loading">
+                        <span flex></span>
+                        {{pagingQ.pageNum + 1 || 1}}
+                        /
+                        {{pagingQ.totalPages || 1}}
+                        <span flex></span>
+
+                        <md-button ng-disabled="!(pagingQ.pageNum + 1 >= pagingQ.totalPages)" class="md-icon-button" aria-label="Prev" ng-click="moveUserQuestion('prev')">
+                            <md-icon class="material-icons">navigate_before</md-icon>
+                        </md-button>
+                        <md-button ng-disabled="!(pagingQ.pageNum + 1 < pagingQ.totalPages)" class="md-icon-button" aria-label="Next" ng-click="moveUserQuestion('next')">
+                            <md-icon class="material-icons">navigate_next</md-icon>
+                        </md-button>
+                    </div>
                 </div>
+
+
             </md-toolbar>
             <md-list flex ng-hide="vm.questions_loading">
                 <div ng-repeat="question in currentUser.questions" ng-cloak>

@@ -1,0 +1,18 @@
+<div layout="column" layout-align="start center" flex>
+    <p class="md-title md-title-big">
+        <span style="font-weight: 100">{{question.title}}</span>
+    </p>
+    <p>
+    <h2 style="font-weight: 100">
+    <md-icon class="md-avatar big-icon" md-svg-icon="avatars:svg-1"></md-icon>
+    {{question.username}}
+    </h2>
+    </p>
+    <div class='md-padding' layout-fill ng-cloak>
+        <div layout="column" class="md-whiteframe-6dp" flex="80" flex-offset="10">
+            <md-content>
+                <div ng-bind-html="question.description"></div>
+            </md-content>
+        </div>
+    </div>
+</div>

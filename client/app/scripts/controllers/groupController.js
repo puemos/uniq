@@ -16,9 +16,6 @@
             emptyQuestions: true,
             questions_loading: true
         };
-        $scope.gotoQuestion = function (question) {
-            $state.go('question', {question: question});
-        };
         var updateGroupInfo = function () {
             GroupService.getGroupDetails($stateParams.groupId)
                 .then(
@@ -43,6 +40,9 @@
                 });
         };
         updateGroupInfo();
+        $scope.gotoQuestion = function (question) {
+            $state.go('question', {question: question});
+        };
         $scope.createQuestion = function () {
             $scope.vm.disableForm = true;
             $scope.vm.newQ.groupId = $scope.currentGroup.id;

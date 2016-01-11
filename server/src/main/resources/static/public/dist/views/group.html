@@ -11,7 +11,7 @@
                     Questions:
                 </div>
             </md-toolbar>
-            <md-list flex>
+            <md-list ng-hide="vm.questions_loading" flex>
                 <md-list-item ng-show="vm.emptyQuestions" class="md-1-line">
                     No Questions
                 </md-list-item>

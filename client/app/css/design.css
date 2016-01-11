@@ -166,3 +166,10 @@ md-contact-chips.autocomplete input {
 
 }
 
+.md-1-line p {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+
