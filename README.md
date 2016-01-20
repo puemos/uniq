@@ -14,7 +14,6 @@ Share questions with your friend or any other close groups
 - Spring Boot
 - Spring Security
 - MongoDB
-- 
 
 Running demo 
 [on heroku](https://uniqy.herokuapp.com)
