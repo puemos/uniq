@@ -3,12 +3,12 @@
 Share questions with your friend or any other close groups
 
 
-##Client-Side
+## Client-Side
 
 - JavaScript
 - AngularJS
 
-##Server-Side
+## Server-Side
 
 - Java
 - Spring Boot
